@@ -1,17 +1,19 @@
 version: '2'
 services:
   mysql:
-#    image: mysql:5.6.30
-    build: ./mysql/
+    image: mysql:5.7
+#    build: ./mysql/
 #    volumes:
 #      - ./mysql:/var/lib/mysql
     ports:
       - "3306:3306"
     environment:
       - MYSQL_DATABASE=FINANCE
-      - DB_USER=root
-      - DB_PASS=root
       - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_CONTAINER_NAME=mysql
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+
 
   cheque:
     build: ./cheque-service/

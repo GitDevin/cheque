@@ -1,11 +1,11 @@
-FROM mysql:5.6.30
+FROM mysql:5.7
 
-RUN mkdir /db/
+#RUN mkdir /db/
 
-ADD init_db.sql privision.sh run_db.sh /db/
+#ADD init_db.sql privision.sh run_db.sh /db/
 
-RUN /db/privision.sh
+#RUN /db/privision.sh
 
-EXPOSE 3306
+#EXPOSE 3306
 
-ENTRYPOINT "/db/run_db.sh"
+CMD /usr/sbin/mysqld
