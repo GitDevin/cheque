@@ -36,6 +36,10 @@ database:
   # the SQL query to run when validating a connection's liveness
   validationQuery: "/* MyService Health Check */ SELECT 1"
 
+flyway:
+  encoding: UTF-8
+  schemas: ["FINANCE"]
+
 logging:
   level: INFO
   appenders:

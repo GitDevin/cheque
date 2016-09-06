@@ -9,6 +9,9 @@ import com.kyl.cheque.resources.HomepageViewResources
 import com.kyl.cheque.resources.MoneySpellerResources
 import io.dropwizard.Application
 import io.dropwizard.assets.AssetsBundle
+import io.dropwizard.db.DataSourceFactory
+import io.dropwizard.flyway.FlywayBundle
+import io.dropwizard.flyway.FlywayFactory
 import io.dropwizard.jdbi.DBIFactory
 import io.dropwizard.setup.Bootstrap
 import io.dropwizard.setup.Environment
@@ -30,6 +33,18 @@ class ChequeApplication extends Application<ChequeConfiguration> {
             @Override
             public Map<String, Map<String, String>> getViewConfiguration(ChequeConfiguration config) {
                 return config.getViewRendererConfiguration()
+            }
+        })
+
+        bootstrap.addBundle(new FlywayBundle<ChequeConfiguration>() {
+            @Override
+            DataSourceFactory getDataSourceFactory(ChequeConfiguration chequeConfiguration) {
+                return chequeConfiguration.getDataSourceFactory()
+            }
+
+            @Override
+            FlywayFactory getFlywayFactory(ChequeConfiguration chequeConfiguration) {
+                return chequeConfiguration.getFlywayFactory()
             }
         })
     }
