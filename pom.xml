@@ -133,11 +133,6 @@
                 <artifactId>maven-scm-plugin</artifactId>
                 <version>${maven-scm-plugin.version}</version>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>${org.apache.maven.plugins.shade.version}</version>
-            </plugin>
         </plugins>
     </build>
 
