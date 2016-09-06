@@ -9,10 +9,10 @@ services:
       - "3306:3306"
     environment:
       - MYSQL_DATABASE=FINANCE
-      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
       - MYSQL_CONTAINER_NAME=mysql
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=root
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
 
   cheque:
     build: ./cheque-service/
@@ -23,5 +23,6 @@ services:
     depends_on:
       - mysql
     environment:
-      - DB_USER=root
-      - DB_PASSWORD=root
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - CHEQUE_VERSION=${CHEQUE_VERSION}
