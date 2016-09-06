@@ -1,0 +1,124 @@
+#cheque-image-container
+{
+    height:462px;
+    width:900px;
+    position:relative;
+    fill: 100.0;
+}
+
+#cheque-image-container-css-3 {
+    width: 900px;
+    height: 462px;
+    background-image: url("/assets/cheque.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}​
+
+#cheque-image
+{
+    position:absolute;
+    left:0;
+    top:0;
+}
+
+#cheque-image-payment-date-text
+{
+    z-index:90;
+    position:absolute;
+    color:black;
+    font-size:12px;
+    font-weight:bold;
+    left:710px;
+    top:50px;
+}
+
+#cheque-image-Recipient-text
+{
+    z-index:90;
+    position:absolute;
+    color:black;
+    font-size:24px;
+    font-weight:bold;
+    left:150px;
+    top:175px;
+}
+
+#cheque-image-amount-text
+{
+    z-index:90;
+    position:absolute;
+    color:black;
+    font-size:24px;
+    font-weight:bold;
+    left:665px;
+    top:175px;
+}
+
+#cheque-image-amount-desc-text
+{
+    z-index:90;
+    position:absolute;
+    color:black;
+    font-size:24px;
+    font-weight:bold;
+    left:50px;
+    top:225px;
+}
+
+#cheque-image-payment-date-input
+{
+    z-index:90;
+    position:absolute;
+    color:black;
+    font-size:12px;
+    font-weight:bold;
+    left:710px;
+    top:45px;
+}
+
+#cheque-image-Recipient-input
+{
+    z-index:90;
+    position:absolute;
+    color:black;
+    font-size:24px;
+    font-weight:bold;
+    left:160px;
+    top:165px;
+}
+
+#cheque-image-amount-dot
+{
+    z-index:90;
+    position:absolute;
+    color:black;
+    font-size:24px;
+    font-weight:bold;
+    left:794px;
+    top:180px;
+}
+
+#cheque-image-dollar-input
+{
+    z-index:90;
+    position:absolute;
+    color:black;
+    font-size:24px;
+    font-weight:bold;
+    left:665px;
+    top:170px;
+    width: 130px;
+}
+
+#cheque-image-cent-input
+{
+    z-index:90;
+    position:absolute;
+    color:black;
+    font-size:24px;
+    font-weight:bold;
+    left:800px;
+    top:170px;
+    width:35px;
+}

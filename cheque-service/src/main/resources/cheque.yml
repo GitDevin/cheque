@@ -1,0 +1,57 @@
+server:
+  type: simple
+  applicationContextPath: /
+  adminContextPath: /admin
+  connector:
+    type: http
+    port: 8080
+  requestLog:
+      appenders:
+          - type: console
+            target: stdout
+            timeZone: Australia/Sydney
+
+          - type: file
+            currentLogFilename: ./logs/cheque.log
+            archivedLogFilenamePattern: ./logs/cheque-%d.log.gz
+            archivedFileCount: 24
+            timeZone: Australia/Sydney
+
+          - type: file
+            threshold: DEBUG
+            currentLogFilename: ./logs/cheque-debug.log
+            archivedLogFilenamePattern: ./logs/cheque-debug-%d.log.gz
+            archivedFileCount: 24
+            timeZone: Australia/Sydney
+
+viewRendererConfiguration:
+  .ftl:
+    strict_syntax: yes
+
+database:
+  driverClass: com.mysql.cj.jdbc.Driver
+  user: root
+  password: root
+  url: jdbc:mysql://mysql:3306?useSSL=false&serverTimezone=Australia/Sydney
+  # the SQL query to run when validating a connection's liveness
+  validationQuery: "/* MyService Health Check */ SELECT 1"
+
+logging:
+  level: INFO
+  appenders:
+    - type: console
+      target: stdout
+      timeZone: Australia/Sydney
+
+    - type: file
+      currentLogFilename: ./logs/cheque.log
+      archivedLogFilenamePattern: ./logs/cheque-%d.log.gz
+      archivedFileCount: 24
+      timeZone: Australia/Sydney
+
+    - type: file
+      threshold: DEBUG
+      currentLogFilename: ./logs/cheque-debug.log
+      archivedLogFilenamePattern: ./logs/cheque-debug-%d.log.gz
+      archivedFileCount: 24
+      timeZone: Australia/Sydney
