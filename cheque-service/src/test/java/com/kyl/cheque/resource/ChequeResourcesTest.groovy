@@ -72,7 +72,7 @@ class ChequeResourcesTest {
     public void testGetAllCheques() {
         final def cheques = [ChequeTest.createCheque(32, 12, 'Sam', '2016-08-19'),
                              ChequeTest.createCheque(84, 42, 'Tom', '2016-08-12'),
-                             ChequeTest.createCheque(72, 62, 'Sam', '2016-08-23')];
+                             ChequeTest.createCheque(72, 62, 'Sam', '2016-08-23')]
 
         when(dao.getAllCheques()).thenReturn(cheques)
 
@@ -124,7 +124,7 @@ class ChequeResourcesTest {
     public void testGetRecipient() {
         final def recipient = 'Sam'
         final def cheques = [ChequeTest.createCheque(32, 12, recipient, '2016-08-19'),
-                             ChequeTest.createCheque(72, 62, recipient, '2016-08-23')];
+                             ChequeTest.createCheque(72, 62, recipient, '2016-08-23')]
 
         when(dao.getAllChequesPaidTo(recipient)).thenReturn(cheques)
 

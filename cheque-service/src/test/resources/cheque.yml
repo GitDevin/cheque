@@ -30,9 +30,9 @@ viewRendererConfiguration:
 
 database:
   driverClass: com.mysql.cj.jdbc.Driver
-  user: cheque
-  password: ch3quesple4s3
-  url: jdbc:mysql://localhost:3306/finance?useSSL=false&serverTimezone=Australia/Sydney
+  user: root
+  password:
+  url: jdbc:mysql://localhost:3306/?useSSL=false&serverTimezone=Australia/Sydney
   # the SQL query to run when validating a connection's liveness
   validationQuery: "/* MyService Health Check */ SELECT 1"
 

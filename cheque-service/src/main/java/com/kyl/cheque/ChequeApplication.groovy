@@ -24,6 +24,7 @@ import org.skife.jdbi.v2.DBI
  * Created on 2016-04-20.
  */
 class ChequeApplication extends Application<ChequeConfiguration> {
+    Bootstrap<ChequeConfiguration> bootstrap
 
     public static void main(String[] args) {
         new ChequeApplication().run(args)
@@ -52,10 +53,20 @@ class ChequeApplication extends Application<ChequeConfiguration> {
 
         bootstrap.setConfigurationSourceProvider(new SubstitutingSourceProvider(
                 bootstrap.getConfigurationSourceProvider(), new EnvironmentVariableSubstitutor()))
+
+        this.bootstrap = bootstrap
+    }
+
+    void migrateDatabase(ChequeConfiguration chequesConfiguration, Bootstrap<ChequeConfiguration> bootstrap) {
+        def dataSource = chequesConfiguration.getDataSourceFactory().build(this.bootstrap.getMetricRegistry(), 'Flyway')
+        def flyway = chequesConfiguration.getFlywayFactory().build(dataSource)
+        flyway.migrate()
     }
 
     @Override
     void run(ChequeConfiguration chequesConfiguration, Environment environment) throws Exception {
+        migrateDatabase(chequesConfiguration, this.bootstrap)
+
         def moneyFormatter = new ICUMoneyFormatter()
         environment.jersey().register(new MoneySpellerResources(moneyFormatter))
 
