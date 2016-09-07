@@ -35,7 +35,7 @@ Back-end provides all functionality of Cheque without any UI. Information passed
 3. go to [http://localhost:`[SERVICE_PORT]`](http://localhost:8080/) where `SERVICE_PORT` is `8080` by default. It's defined in `.env` file.
 
 ##AWS (Deployment)
-`Cheque` use [Boxfuse](https://boxfuse.com/) to deploy to AWS. `Cheque` could be accessed at [here](http://chequeservice-gitdevin.boxfuse.io/) (It is up from time to time.)
+`Cheque` use [Boxfuse](https://boxfuse.com/) to deploy to AWS. `Cheque` can be accessed at [here](http://chequeservice-gitdevin.boxfuse.io/) (It is up from time to time.)
 
 ##Contact Information
 Source code can be found at [https://github.com/gitdevin/cheque](https://github.com/gitdevin/cheque).
