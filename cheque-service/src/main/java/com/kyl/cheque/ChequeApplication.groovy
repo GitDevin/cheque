@@ -58,7 +58,7 @@ class ChequeApplication extends Application<ChequeConfiguration> {
     }
 
     void migrateDatabase(ChequeConfiguration chequesConfiguration, Bootstrap<ChequeConfiguration> bootstrap) {
-        def dataSource = chequesConfiguration.getDataSourceFactory().build(this.bootstrap.getMetricRegistry(), 'Flyway')
+        def dataSource = chequesConfiguration.getDataSourceFactory().build(bootstrap.getMetricRegistry(), 'Flyway')
         def flyway = chequesConfiguration.getFlywayFactory().build(dataSource)
         flyway.migrate()
     }
