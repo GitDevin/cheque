@@ -2,6 +2,7 @@ package com.kyl.cheque.core
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.common.base.MoreObjects
 import io.dropwizard.validation.ValidationMethod
 import org.hibernate.validator.constraints.NotEmpty
 
@@ -46,31 +47,30 @@ class Cheque {
         return "${dollar}.${cent}"
     }
 
-    String toString() {
-        return "${chequeId} ${recipient} ${getAmount()} ${paymentDate} ${amountDesc}"
-    }
-
     boolean equals(o) {
         if (this.is(o)) return true
-        if (getClass() != o.class) return false
 
         Cheque cheque = (Cheque) o
 
-        if (cent != cheque.cent) return false
-        if (dollar != cheque.dollar) return false
-        if (paymentDate != cheque.paymentDate) return false
-        if (recipient != cheque.recipient) return false
+        return Objects.equals(getClass(), o.class)  &&
+                Objects.equals(cent, cheque.cent) &&
+                Objects.equals(dollar, cheque.dollar) &&
+                Objects.equals(paymentDate, cheque.paymentDate) &&
+                Objects.equals(recipient, cheque.recipient)
+    }
 
-        return true
+    String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("ID", chequeId)
+                .add("Recipient", recipient)
+                .add("Amount", amount)
+                .add("PaymentDate", paymentDate.toString())
+                .add("Description", amountDesc)
+                .toString()
     }
 
     int hashCode() {
-        int result
-        result = dollar
-        result = 31 * result + cent
-        result = 31 * result + (recipient != null ? recipient.hashCode() : 0)
-        result = 31 * result + (paymentDate != null ? paymentDate.hashCode() : 0)
-        return result
+        return Objects.hash(dollar, cent, recipient, paymentDate);
     }
 
     @ValidationMethod(message='Invalid cheque object')

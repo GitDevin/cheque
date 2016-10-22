@@ -3,6 +3,8 @@ package com.kyl.cheque.core
 import com.ibm.icu.text.RuleBasedNumberFormat
 import com.ibm.icu.util.ULocale
 
+import static com.google.common.base.Preconditions.checkArgument
+
 /**
  * Created on 2016-04-22.
  */
@@ -24,15 +26,11 @@ class ICUMoneyFormatter implements MoneyFormatter {
 
     @Override
     String formatMoney(int dollar, int cent, String localId) {
-        if (cent >= 100) {
-            throw new IllegalArgumentException("Cent value ${cent} exceeds the maximum value.")
-        }
+        checkArgument(cent >= 100, "Cent value ${cent} exceeds the maximum value.", cent)
 
-        if (dollar > MAX_VALUE) {
-            throw new IllegalArgumentException("Dollar value ${dollar} exceeds the maximum supported values.")
-        }
+        checkArgument(dollar > MAX_VALUE, "Dollar value ${dollar} exceeds the maximum supported values.", dollar)
 
-        def result = new StringBuffer()
+        def result = new StringBuilder()
         if (dollar && cent) {
             result.append(this.format(dollar, localId))
             result.append(dollar == 1 ? " dollar and " : " dollars and ")

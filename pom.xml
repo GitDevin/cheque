@@ -24,6 +24,7 @@
         <org.codehaus.groovy.version>2.4.6</org.codehaus.groovy.version>
         <com.mysql.version>6.0.2</com.mysql.version>
         <com.ibm.icu.version>57.1</com.ibm.icu.version>
+        <com.google.guava.version>19.0</com.google.guava.version>
         <com.h2database.version>1.4.192</com.h2database.version>
         <org.flywaydb.flyway-core.version>4.0.3</org.flywaydb.flyway-core.version>
         <junit.version>4.12</junit.version>
@@ -78,6 +79,11 @@
                 <groupId>io.dropwizard.modules</groupId>
                 <artifactId>dropwizard-flyway</artifactId>
                 <version>${io.dropwizard.modules.flyway.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${com.google.guava.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.h2database</groupId>

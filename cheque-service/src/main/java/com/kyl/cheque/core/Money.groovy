@@ -2,6 +2,7 @@ package com.kyl.cheque.core
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.common.base.MoreObjects
 
 import javax.validation.constraints.Min
 import javax.validation.constraints.NotNull
@@ -23,7 +24,10 @@ class Money {
 
     @JsonIgnore
     String getAmount() {
-        return "${dollar}.${cent}"
+        return MoreObjects.toStringHelper(this).
+                add("Dollar", dollar).
+                add("Cent", cent).
+                toString()
     }
 
     String toString() {
@@ -32,20 +36,15 @@ class Money {
 
     boolean equals(o) {
         if (this.is(o)) return true
-        if (getClass() != o.class) return false
 
         Money money = (Money) o
 
-        if (cent != money.cent) return false
-        if (dollar != money.dollar) return false
-
-        return true
+        return Objects.equals(getClass(), o.getClass()) &&
+                Objects.equals(cent, money.cent) &&
+                Objects.equals(dollar, money.dollar)
     }
 
     int hashCode() {
-        int result
-        result = dollar
-        result = 31 * result + cent
-        return result
+        return Objects.hash(dollar, cent)
     }
 }
