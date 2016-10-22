@@ -26,9 +26,9 @@ class ICUMoneyFormatter implements MoneyFormatter {
 
     @Override
     String formatMoney(int dollar, int cent, String localId) {
-        checkArgument(cent >= 100, "Cent value ${cent} exceeds the maximum value.", cent)
+        checkArgument(cent < 100, "Cent value ${cent} exceeds the maximum value.", cent)
 
-        checkArgument(dollar > MAX_VALUE, "Dollar value ${dollar} exceeds the maximum supported values.", dollar)
+        checkArgument(dollar < MAX_VALUE, "Dollar value ${dollar} exceeds the maximum supported values.", dollar)
 
         def result = new StringBuilder()
         if (dollar && cent) {
