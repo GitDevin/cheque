@@ -31,7 +31,7 @@ class ChequeApplication extends Application<ChequeConfiguration> {
     }
 
     void initialize(Bootstrap<ChequeConfiguration> bootstrap) {
-        bootstrap.addBundle(new AssetsBundle("/assets/", "/assets/"))
+        bootstrap.addBundle(new AssetsBundle())
         bootstrap.addBundle(new ViewBundle<ChequeConfiguration>() {
             @Override
             Map<String, Map<String, String>> getViewConfiguration(ChequeConfiguration config) {
