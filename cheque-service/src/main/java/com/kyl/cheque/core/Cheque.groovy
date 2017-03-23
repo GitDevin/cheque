@@ -43,7 +43,7 @@ class Cheque {
     LocalDateTime updatedTime
 
     @JsonIgnore
-    public String getAmount() {
+    String getAmount() {
         return "${dollar}.${cent}"
     }
 
@@ -75,7 +75,7 @@ class Cheque {
 
     @ValidationMethod(message='Invalid cheque object')
     @JsonIgnore
-    public boolean isNotValidCheque() {
+    boolean isNotValidCheque() {
         if (dollar == 0 && cent == 0) {
             return false
         }

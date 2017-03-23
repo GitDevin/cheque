@@ -26,7 +26,7 @@ import org.skife.jdbi.v2.DBI
 class ChequeApplication extends Application<ChequeConfiguration> {
     Bootstrap<ChequeConfiguration> bootstrap
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         new ChequeApplication().run(args)
     }
 
@@ -34,7 +34,7 @@ class ChequeApplication extends Application<ChequeConfiguration> {
         bootstrap.addBundle(new AssetsBundle("/assets/", "/assets/"))
         bootstrap.addBundle(new ViewBundle<ChequeConfiguration>() {
             @Override
-            public Map<String, Map<String, String>> getViewConfiguration(ChequeConfiguration config) {
+            Map<String, Map<String, String>> getViewConfiguration(ChequeConfiguration config) {
                 return config.getViewRendererConfiguration()
             }
         })

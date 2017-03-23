@@ -30,7 +30,7 @@ class MySQLChequeDAOTest {
     private MySQLChequeDAO dao
 
     @BeforeClass
-    public static void setUpClass() throws Exception {
+    static void setUpClass() throws Exception {
         def environment = new Environment("test-env", Jackson.newObjectMapper(), null, new MetricRegistry(), null)
         dbi = new DBIFactory().build(environment, getDataSourceFactory(), "test")
         handle = dbi.open()
@@ -42,12 +42,12 @@ class MySQLChequeDAOTest {
     }
 
     @AfterClass
-    public static void tearDownClass() {
+    static void tearDownClass() {
         dbi.close(handle)
     }
 
     @Before
-    public void setUp() {
+    void setUp() {
         this.dao = dbi.onDemand(MySQLChequeDAO.class)
     }
 
@@ -61,7 +61,7 @@ class MySQLChequeDAOTest {
     }
 
     @Test
-    public void testGetAllCheques() {
+    void testGetAllCheques() {
         def cheques = dao.getAllCheques()
 
         assertEquals("There should be 3 cheques in the db.", cheques.size(), 3)
@@ -72,14 +72,14 @@ class MySQLChequeDAOTest {
     }
 
     @Test
-    public void testGetCheque() {
+    void testGetCheque() {
         def cheque = dao.getCheque(2l)
 
         ChequeTest.assertCheque(cheque, 44, 89, 'Tom', '2016-06-17')
     }
 
     @Test
-    public void testGetAllChequesPaidTo() {
+    void testGetAllChequesPaidTo() {
         def cheques = dao.getAllChequesPaidTo('Sam')
 
         assertEquals("There should be 2 cheques paid to Sam.", cheques.size(), 2)
@@ -89,7 +89,7 @@ class MySQLChequeDAOTest {
     }
 
     @Test
-    public void testInsertCheque() {
+    void testInsertCheque() {
         def cheque = ChequeTest.createCheque(23, 45, 'noone', '2016-06-25')
 
         int sizeBefore = dao.getAllCheques().size()

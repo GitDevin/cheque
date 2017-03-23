@@ -52,7 +52,7 @@ class IntegrationTest {
     Client client
 
     @BeforeClass
-    public static void setUpClass() throws Exception {
+    static void setUpClass() throws Exception {
         JACKSON_JSON_PROVIDER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         JACKSON_JSON_PROVIDER.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
 
@@ -61,7 +61,7 @@ class IntegrationTest {
     }
 
     @Before
-    public void setUp() {
+    void setUp() {
         client = ClientBuilder.newClient().register(JACKSON_JSON_PROVIDER)
 
         flyway = new Flyway()
@@ -71,13 +71,13 @@ class IntegrationTest {
     }
 
     @After
-    public void tearDown() {
+    void tearDown() {
         client.close()
         flyway.clean()
     }
 
     @Test
-    public void testGetAllCheque() {
+    void testGetAllCheque() {
         final def url = "http://localhost:${RULE.getLocalPort()}/cheque/service/all"
 
         def response = client.target(url).request().get()
@@ -94,7 +94,7 @@ class IntegrationTest {
     }
 
     @Test
-    public void testGetCheque() {
+    void testGetCheque() {
         final def chequeID = 3
         final def url = "http://localhost:${RULE.getLocalPort()}/cheque/service/id/${chequeID}"
 
@@ -110,7 +110,7 @@ class IntegrationTest {
     }
 
     @Test
-    public void testGetChequesPaidTo() {
+    void testGetChequesPaidTo() {
         final def recipient = 'Sam'
         final def url = "http://localhost:${RULE.getLocalPort()}/cheque/service/recipient/${recipient}"
 
@@ -127,7 +127,7 @@ class IntegrationTest {
     }
 
     @Test
-    public void testPutCheque() {
+    void testPutCheque() {
         final def url = "http://localhost:${RULE.getLocalPort()}/cheque/service/put"
         final def cheque = ChequeTest.createCheque(29, 83, 'Linda', '2016-08-23')
 

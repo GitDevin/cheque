@@ -25,14 +25,14 @@ class ChequeViewResources {
     @Timed
     @GET
     @Path('/id/{chequeId}')
-    public ChequeView getRecipientView(@PathParam('chequeId') long chequeId) {
+    ChequeView getRecipientView(@PathParam('chequeId') long chequeId) {
         return new ChequeView(this.dao.getCheque(chequeId), true)
     }
 
     @Timed
     @GET
     @Path('/create')
-    public ChequeView getCreateChequeView() {
+    ChequeView getCreateChequeView() {
         return new ChequeView(null, false)
     }
 }

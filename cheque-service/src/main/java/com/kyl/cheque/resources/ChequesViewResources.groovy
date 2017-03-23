@@ -27,14 +27,14 @@ class ChequesViewResources {
     @Timed
     @GET
     @Path('/all')
-    public ChequesView getChequesView() {
+    ChequesView getChequesView() {
         return new ChequesView(this.dao.getAllCheques())
     }
 
     @Timed
     @GET
     @Path('/recipient/{recipient}')
-    public RecipientView getRecipientView(@PathParam('recipient') String recipient) {
+    RecipientView getRecipientView(@PathParam('recipient') String recipient) {
         def cheques = this.dao.getAllChequesPaidTo(recipient)
         return new RecipientView(cheques)
     }

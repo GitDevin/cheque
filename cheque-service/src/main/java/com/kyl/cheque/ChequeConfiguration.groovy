@@ -24,26 +24,26 @@ class ChequeConfiguration extends Configuration {
     private FlywayFactory flyway = new FlywayFactory()
 
     @JsonProperty("database")
-    public void setDataSourceFactory(DataSourceFactory factory) {
+    void setDataSourceFactory(DataSourceFactory factory) {
         this.database = factory
     }
 
     @JsonProperty("database")
-    public DataSourceFactory getDataSourceFactory() {
+    DataSourceFactory getDataSourceFactory() {
         return database
     }
 
     @JsonProperty("flyway")
-    public FlywayFactory getFlywayFactory() {
+    FlywayFactory getFlywayFactory() {
         return flyway
     }
 
     @JsonProperty("flyway")
-    public void setFlywayFactory(FlywayFactory flywayFactory) {
+    void setFlywayFactory(FlywayFactory flywayFactory) {
         this.flyway = flywayFactory
     }
 
-    public Map<String, Map<String, String>> getViewRendererConfiguration() {
+    Map<String, Map<String, String>> getViewRendererConfiguration() {
         return viewRendererConfiguration
     }
 }

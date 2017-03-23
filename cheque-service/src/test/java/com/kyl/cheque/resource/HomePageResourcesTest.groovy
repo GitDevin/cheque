@@ -21,7 +21,7 @@ class HomePageResourcesTest {
             .build()
 
     @Test
-    public void testHomepageViewResources() {
+    void testHomepageViewResources() {
         def response = resource.client().target('/').request().get()
 
         assertEquals('Response code should be 404', Response.Status.NOT_FOUND.getStatusCode(), response.getStatus())

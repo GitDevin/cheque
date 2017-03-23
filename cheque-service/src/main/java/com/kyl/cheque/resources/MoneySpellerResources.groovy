@@ -24,7 +24,7 @@ class MoneySpellerResources {
     private static final Logger LOG = LoggerFactory.getLogger(MoneySpellerResources.class)
     MoneyFormatter formatter
 
-    public MoneySpellerResources(MoneyFormatter moneyFormatter) {
+    MoneySpellerResources(MoneyFormatter moneyFormatter) {
         this.formatter = moneyFormatter
     }
 

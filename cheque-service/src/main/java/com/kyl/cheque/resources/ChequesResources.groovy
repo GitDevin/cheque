@@ -31,7 +31,7 @@ class ChequesResources {
     @Timed
     @GET
     @Path('/all')
-    public Response getAllCheques() {
+    Response getAllCheques() {
         def cheques = this.dao.getAllCheques()
 
         if (cheques == null || cheques.isEmpty()) {
@@ -45,7 +45,7 @@ class ChequesResources {
     @PUT
     @Path('/put')
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createCheque(@Valid Cheque cheque) {
+    Response createCheque(@Valid Cheque cheque) {
         try {
             cheque.amountDesc = formatter.formatMoney(cheque.dollar, cheque.cent, "en_AU")
         } catch (IllegalArgumentException e) {
@@ -67,7 +67,7 @@ class ChequesResources {
     @Timed
     @GET
     @Path("/recipient/{recipient}")
-    public Response getAllChequesPaidTo(@PathParam('recipient') String recipient) {
+    Response getAllChequesPaidTo(@PathParam('recipient') String recipient) {
         def cheques = this.dao.getAllChequesPaidTo(recipient)
         if (cheques == null || cheques.isEmpty()) {
             LOG.info("Recipient ${recipient} is not found.")
@@ -79,7 +79,7 @@ class ChequesResources {
     @Timed
     @GET
     @Path("/id/{chequeId}")
-    public Response getCheque(@PathParam('chequeId') long chequeId) {
+    Response getCheque(@PathParam('chequeId') long chequeId) {
         def cheque = this.dao.getCheque(chequeId)
         if (cheque == null) {
             return Response.status(Response.Status.NOT_FOUND).build()

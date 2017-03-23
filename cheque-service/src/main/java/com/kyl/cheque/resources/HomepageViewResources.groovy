@@ -16,7 +16,7 @@ class HomepageViewResources {
     @Timed
     @GET
     @Path('/')
-    public Response getHomepage() {
+    Response getHomepage() {
         return Response.seeOther(URI.create('/cheque/view/all')).build()
     }
 }

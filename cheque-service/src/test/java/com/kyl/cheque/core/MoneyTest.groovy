@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals
 class MoneyTest {
     private static final ObjectMapper MAPPER = Jackson.newObjectMapper()
 
-    public static Money createMoney(int dollar, int cent) {
+    static Money createMoney(int dollar, int cent) {
         def money = new Money()
         money.setDollar(dollar)
         money.setCent(cent)
@@ -21,7 +21,7 @@ class MoneyTest {
     }
 
     @Test
-    public void serializesToJSON() throws IOException {
+    void serializesToJSON() throws IOException {
         final def money = createMoney(34, 11)
 
         final def expected = MAPPER.writeValueAsString(
@@ -31,7 +31,7 @@ class MoneyTest {
     }
 
     @Test
-    public void deserialize() {
+    void deserialize() {
         final def result = MAPPER.readValue(fixture('fixtures/money.json'), Money.class)
 
         final def expected = createMoney(34, 11)

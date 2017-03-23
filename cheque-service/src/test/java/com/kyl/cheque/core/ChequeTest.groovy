@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals
 class ChequeTest {
     private static final ObjectMapper MAPPER = Jackson.newObjectMapper()
 
-    public static Cheque createCheque(int dollar, int cent, String recipient, String paymentDate) {
+    static Cheque createCheque(int dollar, int cent, String recipient, String paymentDate) {
         def cheque = new Cheque()
         cheque.setDollar(dollar)
         cheque.setCent(cent)
@@ -24,7 +24,7 @@ class ChequeTest {
         return cheque
     }
 
-    public static void assertCheque(Cheque cheque, int dollar, int cent, String recipient, String paymentDate) {
+    static void assertCheque(Cheque cheque, int dollar, int cent, String recipient, String paymentDate) {
         assertEquals("\$${dollar} in the first cheque.", cheque.getDollar(), dollar)
         assertEquals("${cent} cents in the first cheque.", cheque.getCent(), cent)
         assertEquals("Cheque payable to ${recipient}.", cheque.getRecipient(), recipient)
@@ -34,7 +34,7 @@ class ChequeTest {
     }
 
     @Test
-    public void serializesToJSON() throws IOException {
+    void serializesToJSON() throws IOException {
         final def cheque = createCheque(20, 30, 'receiver', '2016-06-14')
 
         final def expected = MAPPER.writeValueAsString(
@@ -44,7 +44,7 @@ class ChequeTest {
     }
 
     @Test
-    public void deserialize() {
+    void deserialize() {
         def cheque = MAPPER.readValue(fixture('fixtures/cheque.json'), Cheque.class)
         def expected = createCheque(20, 30, 'receiver', '2016-06-14')
 
