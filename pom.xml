@@ -7,6 +7,14 @@
     <packaging>pom</packaging>
     <version>0.1.1-SNAPSHOT</version>
 
+    <repositories>
+        <repository>
+            <id>central</id>
+            <name>maven central repository</name>
+            <url>https://repo1.maven.org/maven2/</url>
+        </repository>
+    </repositories>
+
     <modules>
         <module>cheque-service</module>
     </modules>
@@ -20,18 +28,19 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <io.dropwizard.version>1.0.2</io.dropwizard.version>
         <io.dropwizard.modules.flyway.version>1.0.0-1</io.dropwizard.modules.flyway.version>
-        <org.codehaus.groovy.version>2.4.6</org.codehaus.groovy.version>
-        <com.mysql.version>6.0.2</com.mysql.version>
+        <org.codehaus.groovy.version>3.0.9</org.codehaus.groovy.version>
+        <com.mysql.version>8.0.16</com.mysql.version>
         <com.ibm.icu.version>57.1</com.ibm.icu.version>
-        <com.h2database.version>1.4.192</com.h2database.version>
+        <com.h2database.version>2.1.210</com.h2database.version>
         <org.flywaydb.flyway-core.version>4.0.3</org.flywaydb.flyway-core.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
         <org.apache.maven.plugins.shade.version>2.3</org.apache.maven.plugins.shade.version>
-        <org.apache.maven.compiler.plugin.version>3.3</org.apache.maven.compiler.plugin.version>
-        <java.source.version>1.8</java.source.version>
-        <java.target.version>1.8</java.target.version>
-        <groovy-eclipse-compiler.version>2.9.2-01</groovy-eclipse-compiler.version>
-        <groovy-eclipse-batch.version>2.4.3-01</groovy-eclipse-batch.version>
+        <org.apache.maven.compiler.plugin.version>3.10.0</org.apache.maven.compiler.plugin.version>
+        <java.source.version>11</java.source.version>
+        <java.target.version>11</java.target.version>
+        <java.release.version>11</java.release.version>
+        <groovy-eclipse-compiler.version>3.7.0</groovy-eclipse-compiler.version>
+        <groovy-eclipse-batch.version>3.0.8-01</groovy-eclipse-batch.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
         <maven-scm-plugin.version>1.9.4</maven-scm-plugin.version>
     </properties>
@@ -42,6 +51,7 @@
                 <groupId>org.codehaus.groovy</groupId>
                 <artifactId>groovy-all</artifactId>
                 <version>${org.codehaus.groovy.version}</version>
+                <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>io.dropwizard</groupId>
@@ -109,6 +119,7 @@
                     <compilerId>groovy-eclipse-compiler</compilerId>
                     <source>${java.source.version}</source>
                     <target>${java.target.version}</target>
+                    <release>${java.release.version}</release>
                 </configuration>
                 <dependencies>
                     <dependency>
