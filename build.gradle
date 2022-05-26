@@ -8,17 +8,20 @@ allprojects {
 }
 
 subprojects {
-    apply plugin: 'java'
+    apply plugin: 'groovy'
     apply plugin: 'maven-publish'
 
     repositories {
         mavenLocal()
         maven {
-            url = uri('http://repo.maven.apache.org/maven2')
+            url = uri('https://repo.maven.apache.org/maven2')
         }
     }
 
-    sourceCompatibility = '1.8'
+    java {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
 
     publishing {
         publications {
