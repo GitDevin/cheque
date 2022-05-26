@@ -14,11 +14,11 @@ import io.dropwizard.configuration.SubstitutingSourceProvider
 import io.dropwizard.db.DataSourceFactory
 import io.dropwizard.flyway.FlywayBundle
 import io.dropwizard.flyway.FlywayFactory
-import io.dropwizard.jdbi.DBIFactory
+import io.dropwizard.jdbi3.JdbiFactory
 import io.dropwizard.setup.Bootstrap
 import io.dropwizard.setup.Environment
 import io.dropwizard.views.ViewBundle
-import org.skife.jdbi.v2.DBI
+import org.jdbi.v3.core.Jdbi
 
 /**
  * Created on 2016-04-20.
@@ -26,7 +26,7 @@ import org.skife.jdbi.v2.DBI
 class ChequeApplication extends Application<ChequeConfiguration> {
     Bootstrap<ChequeConfiguration> bootstrap
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         new ChequeApplication().run(args)
     }
 
@@ -34,7 +34,7 @@ class ChequeApplication extends Application<ChequeConfiguration> {
         bootstrap.addBundle(new AssetsBundle("/assets/", "/assets/"))
         bootstrap.addBundle(new ViewBundle<ChequeConfiguration>() {
             @Override
-            public Map<String, Map<String, String>> getViewConfiguration(ChequeConfiguration config) {
+            Map<String, Map<String, String>> getViewConfiguration(ChequeConfiguration config) {
                 return config.getViewRendererConfiguration()
             }
         })
@@ -70,8 +70,8 @@ class ChequeApplication extends Application<ChequeConfiguration> {
         def moneyFormatter = new ICUMoneyFormatter()
         environment.jersey().register(new MoneySpellerResources(moneyFormatter))
 
-        final DBIFactory factory = new DBIFactory()
-        final DBI jdbi = factory.build(environment, chequesConfiguration.getDataSourceFactory(), "mysql")
+        final JdbiFactory factory = new JdbiFactory()
+        final Jdbi jdbi = factory.build(environment, chequesConfiguration.getDataSourceFactory(), "mysql")
 
         final MySQLChequeDAO mySQLChequeDAO = jdbi.onDemand(MySQLChequeDAO.class)
 

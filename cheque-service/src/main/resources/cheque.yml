@@ -32,7 +32,7 @@ database:
   driverClass: com.mysql.cj.jdbc.Driver
   user: ${DB_USER}
   password: ${DB_PASSWORD}
-  url: jdbc:mysql://mysql:3306?useSSL=false&serverTimezone=America/Vancouver
+  url: jdbc:mysql://mysql:3306?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Vancouver
   # the SQL query to run when validating a connection's liveness
   validationQuery: "/* MyService Health Check */ SELECT 1"
 

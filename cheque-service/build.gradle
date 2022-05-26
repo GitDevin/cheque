@@ -1,28 +1,30 @@
 
 plugins {
+    id 'java'
     id 'groovy'
     id 'application'
-    id 'com.github.johnrengelman.shadow' version '5.2.0'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 dependencies {
-    implementation 'org.codehaus.groovy:groovy-all:2.5.12'
-    implementation 'io.dropwizard:dropwizard-core:1.0.2'
-    implementation 'io.dropwizard:dropwizard-jdbi:1.0.2'
-    implementation 'io.dropwizard:dropwizard-views-freemarker:1.0.2'
-    implementation 'io.dropwizard:dropwizard-assets:1.0.2'
-    implementation 'mysql:mysql-connector-java:6.0.2'
-    implementation 'com.ibm.icu:icu4j:57.1'
-    implementation 'io.dropwizard.modules:dropwizard-flyway:1.0.0-1'
-    implementation "jakarta.xml.bind:jakarta.xml.bind-api:2.3.2"
-    implementation "org.glassfish.jaxb:jaxb-runtime:2.3.2"
+    implementation 'org.codehaus.groovy:groovy-all:3.0.10'
+    implementation 'io.dropwizard:dropwizard-core:2.1.0'
+    implementation 'io.dropwizard:dropwizard-jdbi3:2.1.0'
+    implementation 'io.dropwizard:dropwizard-views-freemarker:2.1.0'
+    implementation 'io.dropwizard:dropwizard-assets:2.1.0'
+    implementation 'mysql:mysql-connector-java:8.0.29'
+    implementation 'com.ibm.icu:icu4j:71.1'
+    implementation 'io.dropwizard.modules:dropwizard-flyway:2.0.29-1'
+    implementation 'org.flywaydb:flyway-mysql:8.5.10'
+    implementation 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.0'
+    implementation 'org.glassfish.jaxb:jaxb-runtime:3.0.2'
 
-    testImplementation 'com.h2database:h2:1.4.192'
-    testImplementation 'io.dropwizard:dropwizard-testing:1.0.2'
-    testImplementation "org.junit.jupiter:junit-jupiter:5.5.2"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.5.2"
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.2'
-    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.5.2'
+    testImplementation 'com.h2database:h2:2.1.212'
+    testImplementation 'io.dropwizard:dropwizard-testing:2.1.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.2'
     testImplementation 'org.mockito:mockito-junit-jupiter'
     test.useJUnitPlatform()
 }
@@ -43,7 +45,7 @@ tasks.register('readEnvFile') {
             def (key, value) = it.tokenize('=')
 //            environment key, value
             project.properties.put(key, value)
-            project.env
+//            project.env
 //            println "$key : $value"
         }
         println 'read .env file'
