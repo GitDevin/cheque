@@ -31,7 +31,7 @@
         <org.codehaus.groovy.version>3.0.9</org.codehaus.groovy.version>
         <com.mysql.version>8.0.16</com.mysql.version>
         <com.ibm.icu.version>57.1</com.ibm.icu.version>
-        <com.h2database.version>2.1.210</com.h2database.version>
+        <com.h2database.version>2.2.222</com.h2database.version>
         <org.flywaydb.flyway-core.version>4.0.3</org.flywaydb.flyway-core.version>
         <junit.version>4.13.1</junit.version>
         <org.apache.maven.plugins.shade.version>2.3</org.apache.maven.plugins.shade.version>
