@@ -1,9 +1,9 @@
 steps:
-  - name: maven:latest
+  - name: maven:3.9.4
     entrypoint: mvn
     args: ['test']
 
-  - name: maven:latest
+  - name: maven:3.9.4
     entrypoint: mvn
     args: ['package', '-Dmaven.test.skip=true']
 
