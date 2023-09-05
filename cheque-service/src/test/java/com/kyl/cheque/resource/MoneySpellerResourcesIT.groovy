@@ -6,7 +6,7 @@ import com.kyl.cheque.core.MoneyTest
 import com.kyl.cheque.resources.MoneySpellerResources
 import io.dropwizard.testing.junit.ResourceTestRule
 import org.junit.ClassRule
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 import javax.ws.rs.client.Entity
 import javax.ws.rs.core.GenericType
@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals
 /**
 *  Created on 2016-09-04.
 */
-class MoneySpellerResourcesTest {
+class MoneySpellerResourcesIT {
 
     static MoneyFormatter moneyFormatter = new ICUMoneyFormatter()
 

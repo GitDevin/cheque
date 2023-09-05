@@ -8,9 +8,9 @@ import io.dropwizard.jdbi.DBIFactory
 import io.dropwizard.setup.Environment
 import org.flywaydb.core.Flyway
 import org.junit.AfterClass
-import org.junit.Before
 import org.junit.BeforeClass
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.skife.jdbi.v2.DBI
 import org.skife.jdbi.v2.Handle
 
@@ -20,7 +20,7 @@ import static org.junit.Assert.assertTrue
 /**
  * Created on 2016-09-03.
  */
-class MySQLChequeDAOTest {
+class MySQLChequeDAOIT {
     private static final String DB_URL = "jdbc:h2:mem:FINANCE;MODE=MSSQLServer"
     private static final String DB_USER = "sa"
     private static final String DB_PASSWORD = "sa_password"
@@ -46,7 +46,7 @@ class MySQLChequeDAOTest {
         dbi.close(handle)
     }
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.dao = dbi.onDemand(MySQLChequeDAO.class)
     }

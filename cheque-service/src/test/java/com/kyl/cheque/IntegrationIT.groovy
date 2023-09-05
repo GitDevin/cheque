@@ -14,7 +14,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.ClassRule
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 import javax.ws.rs.client.Client
 import javax.ws.rs.client.ClientBuilder
@@ -29,7 +29,7 @@ import static org.junit.Assert.assertEquals
 /**
  * Created on 2016-09-06.
  */
-class IntegrationTest {
+class IntegrationIT {
     static final String CONFIG_PATH = "src/test/resources/cheque.yml"
 
     static final String DB_URL = "jdbc:h2:mem:FINANCEMODE=MSSQLServer"

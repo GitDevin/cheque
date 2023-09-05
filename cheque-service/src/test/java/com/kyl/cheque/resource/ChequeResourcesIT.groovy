@@ -11,13 +11,12 @@ import io.dropwizard.testing.junit.ResourceTestRule
 import org.junit.After
 import org.junit.BeforeClass
 import org.junit.ClassRule
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 import javax.ws.rs.client.Entity
 import javax.ws.rs.core.GenericType
 import javax.ws.rs.core.Response
 
-import static junit.framework.TestCase.assertEquals
 import static junit.framework.TestCase.assertTrue
 import static org.junit.Assert.assertEquals
 import static org.mockito.Mockito.mock
@@ -27,7 +26,7 @@ import static org.mockito.Mockito.when
 /**
  * Created on 2016-09-04.
  */
-class ChequeResourcesTest {
+class ChequeResourcesIT {
 
     static ChequeDAO dao = mock(ChequeDAO.class)
     static MoneyFormatter formatter = mock(MoneyFormatter.class)

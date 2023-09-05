@@ -3,7 +3,7 @@ package com.kyl.cheque.resource
 import com.kyl.cheque.resources.HomepageViewResources
 import io.dropwizard.testing.junit.ResourceTestRule
 import org.junit.ClassRule
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 import javax.ws.rs.core.Response
 
@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals
 /**
  * Created on 2016-09-04.
  */
-class HomePageResourcesTest {
+class HomePageResourcesIT {
 
     @ClassRule
     public static final ResourceTestRule resource = ResourceTestRule.builder()

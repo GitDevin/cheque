@@ -2,7 +2,7 @@ package com.kyl.cheque.core
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.dropwizard.jackson.Jackson
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 import java.time.LocalDate
 
