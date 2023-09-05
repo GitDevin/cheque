@@ -1,7 +1,7 @@
 steps:
   - name: maven:3.9.4
     entrypoint: mvn
-    args: ['test']
+    args: ['-X', 'test']
 
   - name: maven:3.9.4
     entrypoint: mvn
