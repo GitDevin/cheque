@@ -1,11 +1,11 @@
 steps:
-  - name: maven:3.9.4
+  - name: maven:3.9.4-jdk-11
     entrypoint: mvn
     args: ['-X', 'test']
 
-  - name: maven:3.9.4
+  - name: maven:3.9.4-jdk-11
     entrypoint: mvn
     args: ['package', '-Dmaven.test.skip=true']
 
-  - name: gcr.io/cloud-builders/mvn
+  - name: maven:3.9.4-jdk-11 #gcr.io/cloud-builders/mvn
     args: [ 'deploy' ]
