@@ -26,7 +26,7 @@
         </repository>
         <repository>
             <id>artifact-registry</id>
-            <url>artifactregistry://us-west-2-maven.pkg.dev/cloud-build-397718/cheque-repository</url>
+            <url>artifactregistry://us-west2-maven.pkg.dev/cloud-build-397718/cheque-repository</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -47,21 +47,21 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <io.dropwizard.version>1.0.2</io.dropwizard.version>
-        <io.dropwizard.modules.flyway.version>1.0.0-1</io.dropwizard.modules.flyway.version>
+        <io.dropwizard.version>4.0.1</io.dropwizard.version>
+        <io.dropwizard.modules.flyway.version>4.0.0-3</io.dropwizard.modules.flyway.version>
         <org.codehaus.groovy.version>3.0.9</org.codehaus.groovy.version>
         <com.mysql.version>8.0.16</com.mysql.version>
         <com.ibm.icu.version>57.1</com.ibm.icu.version>
         <com.h2database.version>2.2.222</com.h2database.version>
-        <org.flywaydb.flyway-core.version>4.0.3</org.flywaydb.flyway-core.version>
+        <org.flywaydb.flyway-core.version>9.22.0</org.flywaydb.flyway-core.version>
         <junit.version>4.13.1</junit.version>
         <org.apache.maven.plugins.shade.version>2.3</org.apache.maven.plugins.shade.version>
         <org.apache.maven.compiler.plugin.version>3.11.0</org.apache.maven.compiler.plugin.version>
         <java.source.version>11</java.source.version>
         <java.target.version>11</java.target.version>
         <java.release.version>11</java.release.version>
-        <groovy-eclipse-compiler.version>3.7.0</groovy-eclipse-compiler.version>
-        <groovy-eclipse-batch.version>3.0.8-01</groovy-eclipse-batch.version>
+<!--        <groovy-eclipse-compiler.version>3.7.0</groovy-eclipse-compiler.version>-->
+<!--        <groovy-eclipse-batch.version>3.0.8-01</groovy-eclipse-batch.version>-->
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
         <maven-scm-plugin.version>1.9.4</maven-scm-plugin.version>
         <artifactregistry-maven-wagon.version>2.2.1</artifactregistry-maven-wagon.version>
@@ -82,7 +82,7 @@
             </dependency>
             <dependency>
                 <groupId>io.dropwizard</groupId>
-                <artifactId>dropwizard-jdbi</artifactId>
+                <artifactId>dropwizard-jdbi3</artifactId>
                 <version>${io.dropwizard.version}</version>
             </dependency>
             <dependency>
@@ -142,24 +142,24 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${org.apache.maven.compiler.plugin.version}</version>
-                <configuration>
-                    <compilerId>groovy-eclipse-compiler</compilerId>
-                    <source>${java.source.version}</source>
-                    <target>${java.target.version}</target>
-                    <release>${java.release.version}</release>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.codehaus.groovy</groupId>
-                        <artifactId>groovy-eclipse-compiler</artifactId>
-                        <version>${groovy-eclipse-compiler.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.codehaus.groovy</groupId>
-                        <artifactId>groovy-eclipse-batch</artifactId>
-                        <version>${groovy-eclipse-batch.version}</version>
-                    </dependency>
-                </dependencies>
+<!--                <configuration>-->
+<!--                    <compilerId>groovy-eclipse-compiler</compilerId>-->
+<!--                    <source>${java.source.version}</source>-->
+<!--                    <target>${java.target.version}</target>-->
+<!--                    <release>${java.release.version}</release>-->
+<!--                </configuration>-->
+<!--                <dependencies>-->
+<!--                    <dependency>-->
+<!--                        <groupId>org.codehaus.groovy</groupId>-->
+<!--                        <artifactId>groovy-eclipse-compiler</artifactId>-->
+<!--                        <version>${groovy-eclipse-compiler.version}</version>-->
+<!--                    </dependency>-->
+<!--                    <dependency>-->
+<!--                        <groupId>org.codehaus.groovy</groupId>-->
+<!--                        <artifactId>groovy-eclipse-batch</artifactId>-->
+<!--                        <version>${groovy-eclipse-batch.version}</version>-->
+<!--                    </dependency>-->
+<!--                </dependencies>-->
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
