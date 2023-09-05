@@ -10,7 +10,7 @@
     <distributionManagement>
         <snapshotRepository>
             <id>artifact-registry</id>
-            <url>artifactregistry://us-west2-maven.pkg.dev/cloud-build-397718/cheque-repository</url>
+            <url>artifactregistry://us-west2-maven.pkg.dev/cloud-build-397718/cheque-snapshot-repository</url>
         </snapshotRepository>
         <repository>
             <id>artifact-registry</id>
@@ -29,6 +29,16 @@
             <url>artifactregistry://us-west2-maven.pkg.dev/cloud-build-397718/cheque-repository</url>
             <releases>
                 <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>artifact-registry</id>
+            <url>artifactregistry://us-west2-maven.pkg.dev/cloud-build-397718/cheque-snapshot-repository</url>
+            <releases>
+                <enabled>false</enabled>
             </releases>
             <snapshots>
                 <enabled>true</enabled>
