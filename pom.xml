@@ -35,7 +35,7 @@
             </snapshots>
         </repository>
         <repository>
-            <id>artifact-registry</id>
+            <id>snapshot-artifact-registry</id>
             <url>artifactregistry://us-west2-maven.pkg.dev/cloud-build-397718/cheque-snapshot-repository</url>
             <releases>
                 <enabled>false</enabled>
