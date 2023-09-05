@@ -8,4 +8,5 @@ steps:
     args: ['package', '-Dmaven.test.skip=true']
 
   - name: maven:3.9.4 #gcr.io/cloud-builders/mvn
+    entrypoint: mvn
     args: [ 'deploy' ]
