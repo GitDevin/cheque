@@ -9,20 +9,20 @@ server:
       appenders:
           - type: console
             target: stdout
-            timeZone: Australia/Sydney
+            timeZone: America/Vancouver
 
           - type: file
             currentLogFilename: ./logs/cheque.log
             archivedLogFilenamePattern: ./logs/cheque-%d.log.gz
             archivedFileCount: 24
-            timeZone: Australia/Sydney
+            timeZone: America/Vancouver
 
           - type: file
             threshold: DEBUG
             currentLogFilename: ./logs/cheque-debug.log
             archivedLogFilenamePattern: ./logs/cheque-debug-%d.log.gz
             archivedFileCount: 24
-            timeZone: Australia/Sydney
+            timeZone: America/Vancouver
 
 viewRendererConfiguration:
   .ftl:
@@ -30,9 +30,9 @@ viewRendererConfiguration:
 
 database:
   driverClass: com.mysql.cj.jdbc.Driver
-  user: root
-  password:
-  url: jdbc:mysql://localhost:3306/?useSSL=false&serverTimezone=Australia/Sydney
+  user: cheque-user
+  password: cheque-p4ssw0rd
+  url: jdbc:mysql://localhost:3306/?useSSL=false&serverTimezone=America/Vancouver&allowPublicKeyRetrieval=true
   # the SQL query to run when validating a connection's liveness
   validationQuery: "/* MyService Health Check */ SELECT 1"
 
@@ -45,17 +45,17 @@ logging:
   appenders:
     - type: console
       target: stdout
-      timeZone: Australia/Sydney
+      timeZone: America/Vancouver
 
     - type: file
       currentLogFilename: ./logs/cheque.log
       archivedLogFilenamePattern: ./logs/cheque-%d.log.gz
       archivedFileCount: 24
-      timeZone: Australia/Sydney
+      timeZone: America/Vancouver
 
     - type: file
       threshold: DEBUG
       currentLogFilename: ./logs/cheque-debug.log
       archivedLogFilenamePattern: ./logs/cheque-debug-%d.log.gz
       archivedFileCount: 24
-      timeZone: Australia/Sydney
+      timeZone: America/Vancouver

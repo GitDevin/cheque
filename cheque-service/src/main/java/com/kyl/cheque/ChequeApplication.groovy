@@ -1,7 +1,7 @@
 package com.kyl.cheque
 
-//import com.codahale.metrics.MetricRegistry
-//import com.codahale.metrics.jersey3.InstrumentedResourceMethodApplicationListener
+import com.codahale.metrics.MetricRegistry
+import com.codahale.metrics.jersey2.InstrumentedResourceMethodApplicationListener
 import com.kyl.cheque.core.ICUMoneyFormatter
 import com.kyl.cheque.db.MySQLChequeDAO
 import com.kyl.cheque.resources.ChequeViewResources
@@ -76,7 +76,7 @@ class ChequeApplication extends Application<ChequeConfiguration> {
 
         final MySQLChequeDAO mySQLChequeDAO = jdbi.onDemand(MySQLChequeDAO.class)
 
-//        environment.jersey()register(new InstrumentedResourceMethodApplicationListener(new MetricRegistry()));
+        environment.jersey()register(new InstrumentedResourceMethodApplicationListener(new MetricRegistry()))
         environment.jersey().register(new HomepageViewResources())
         environment.jersey().register(new ChequesResources(mySQLChequeDAO, moneyFormatter))
         environment.jersey().register(new ChequesViewResources(mySQLChequeDAO))

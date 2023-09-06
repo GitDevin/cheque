@@ -57,7 +57,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <io.dropwizard.version>4.0.1</io.dropwizard.version>
+        <io.dropwizard.version>3.0.1</io.dropwizard.version>
         <io.dropwizard.logback-throttling-appender.version>1.4.0</io.dropwizard.logback-throttling-appender.version>
         <io.dropwizard.metrics-core.version>4.2.19</io.dropwizard.metrics-core.version>
         <io.dropwizard.modules.flyway.version>4.0.0-3</io.dropwizard.modules.flyway.version>
@@ -65,29 +65,30 @@
         <org.apache.tomcat-jdbc.version>10.1.13</org.apache.tomcat-jdbc.version>
         <org.yaml.snakeyaml.version>2.2</org.yaml.snakeyaml.version>
         <org.hibernate.orm.version>6.3.0.Final</org.hibernate.orm.version>
-        <org.hibernate.validator.version>8.0.1.Final</org.hibernate.validator.version>
+        <org.hibernate.validator.version>6.2.5.Final</org.hibernate.validator.version>
         <jdbi3-core.version>3.41.0</jdbi3-core.version>
-        <jakarta.validation.version>3.0.2</jakarta.validation.version>
+        <jakarta.validation.version>2.0.2</jakarta.validation.version>
         <com.google.guava.version>32.1.2-jre</com.google.guava.version>
-        <jakarta.el-api.version>5.0.1</jakarta.el-api.version>
-        <org.glassfish.jakarta.el.version>5.0.0-M1</org.glassfish.jakarta.el.version>
+        <jakarta.el-api.version>3.0.3</jakarta.el-api.version>
+        <org.glassfish.jakarta.el.version>3.0.4</org.glassfish.jakarta.el.version>
+        <org.glassfish.hk2.version>2.5.0</org.glassfish.hk2.version>
         <net.sourceforge.argparse4j.version>0.9.0</net.sourceforge.argparse4j.version>
-        <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
+        <jakarta.servlet-api.version>4.0.4</jakarta.servlet-api.version>
         <org.freemarker.version>2.3.32</org.freemarker.version>
         <com.github.ben-manes.caffeine.version>3.1.8</com.github.ben-manes.caffeine.version>
-        <org.glassfish.jersey.version>3.1.3</org.glassfish.jersey.version>
-        <jakarta.ws.rs-api.version>3.1.0</jakarta.ws.rs-api.version>
+        <org.glassfish.jersey.version>2.40</org.glassfish.jersey.version>
+        <jakarta.ws.rs-api.version>2.1.6</jakarta.ws.rs-api.version>
         <org.apache.groovy.version>4.0.14</org.apache.groovy.version>
         <org.apache.commons.commons-text.version>1.10.0</org.apache.commons.commons-text.version>
-        <org.eclipse.jetty.version>11.0.16</org.eclipse.jetty.version>
+        <org.eclipse.jetty.version>10.0.16</org.eclipse.jetty.version>
         <org.eclipse.jetty.toolchain.setuid.version>1.0.4</org.eclipse.jetty.toolchain.setuid.version>
         <com.mysql.version>8.1.0</com.mysql.version>
         <org.javassist.version>3.29.2-GA</org.javassist.version>
-        <jakarta.inject-api.version>2.0.1</jakarta.inject-api.version>
-        <jakarta.annotation-api.version>2.1.1</jakarta.annotation-api.version>
+        <jakarta.inject-api.version>1.0.5</jakarta.inject-api.version>
+        <jakarta.annotation-api.version>1.3.5</jakarta.annotation-api.version>
         <com.ibm.icu.version>57.1</com.ibm.icu.version>
         <com.h2database.version>2.2.222</com.h2database.version>
-        <ch.qos.logback.version>1.4.11</ch.qos.logback.version>
+        <ch.qos.logback.version>1.3.11</ch.qos.logback.version>
         <org.flywaydb.flyway-core.version>9.22.0</org.flywaydb.flyway-core.version>
         <junit.version>4.13.1</junit.version>
         <org.apache.maven.plugins.shade.version>2.3</org.apache.maven.plugins.shade.version>
@@ -106,8 +107,9 @@
         <dependencies>
             <dependency>
                 <groupId>org.apache.groovy</groupId>
-                <artifactId>groovy</artifactId>
+                <artifactId>groovy-all</artifactId>
                 <version>${org.apache.groovy.version}</version>
+                <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>io.dropwizard</groupId>
@@ -186,7 +188,7 @@
             </dependency>
             <dependency>
                 <groupId>io.dropwizard.metrics</groupId>
-                <artifactId>metrics-jersey3</artifactId>
+                <artifactId>metrics-jersey2</artifactId>
                 <version>${io.dropwizard.metrics-core.version}</version>
             </dependency>
             <dependency>
@@ -206,7 +208,7 @@
             </dependency>
             <dependency>
                 <groupId>io.dropwizard.metrics</groupId>
-                <artifactId>metrics-jetty11</artifactId>
+                <artifactId>metrics-jetty10</artifactId>
                 <version>${io.dropwizard.metrics-core.version}</version>
             </dependency>
             <dependency>
@@ -217,6 +219,21 @@
             <dependency>
                 <groupId>io.dropwizard.metrics</groupId>
                 <artifactId>metrics-logback</artifactId>
+                <version>${io.dropwizard.metrics-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.dropwizard.metrics</groupId>
+                <artifactId>metrics-servlets</artifactId>
+                <version>${io.dropwizard.metrics-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.dropwizard.metrics</groupId>
+                <artifactId>metrics-servlet</artifactId>
+                <version>${io.dropwizard.metrics-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.dropwizard.metrics</groupId>
+                <artifactId>metrics-json</artifactId>
                 <version>${io.dropwizard.metrics-core.version}</version>
             </dependency>
             <dependency>
@@ -237,6 +254,21 @@
             <dependency>
                 <groupId>org.glassfish.jersey.core</groupId>
                 <artifactId>jersey-server</artifactId>
+                <version>${org.glassfish.jersey.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.ext</groupId>
+                <artifactId>jersey-bean-validation</artifactId>
+                <version>${org.glassfish.jersey.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.core</groupId>
+                <artifactId>jersey-client</artifactId>
+                <version>${org.glassfish.jersey.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.inject</groupId>
+                <artifactId>jersey-hk2</artifactId>
                 <version>${org.glassfish.jersey.version}</version>
             </dependency>
             <dependency>
@@ -270,6 +302,11 @@
                 <version>${jdbi3-core.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.jdbi</groupId>
+                <artifactId>jdbi3-guava</artifactId>
+                <version>${jdbi3-core.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-text</artifactId>
                 <version>${org.apache.commons.commons-text.version}</version>
@@ -277,6 +314,11 @@
             <dependency>
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-core</artifactId>
+                <version>${org.flywaydb.flyway-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-mysql</artifactId>
                 <version>${org.flywaydb.flyway-core.version}</version>
             </dependency>
             <dependency>
@@ -372,6 +414,16 @@
                 <version>${com.fasterxml.jackson.core.version}</version>
             </dependency>
             <dependency>
+                <groupId>com.fasterxml.jackson.jaxrs</groupId>
+                <artifactId>jackson-jaxrs-json-provider</artifactId>
+                <version>${com.fasterxml.jackson.core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.jaxrs</groupId>
+                <artifactId>jackson-jaxrs-base</artifactId>
+                <version>${com.fasterxml.jackson.core.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.tomcat</groupId>
                 <artifactId>tomcat-jdbc</artifactId>
                 <version>${org.apache.tomcat-jdbc.version}</version>
@@ -385,6 +437,11 @@
                 <groupId>org.hibernate.validator</groupId>
                 <artifactId>hibernate-validator</artifactId>
                 <version>${org.hibernate.validator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>2.0.1.Final</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.validation</groupId>
@@ -405,6 +462,21 @@
                 <groupId>org.glassfish</groupId>
                 <artifactId>jakarta.el</artifactId>
                 <version>${org.glassfish.jakarta.el.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.hk2</groupId>
+                <artifactId>hk2-api</artifactId>
+                <version>${org.glassfish.hk2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.hk2</groupId>
+                <artifactId>hk2-utils</artifactId>
+                <version>${org.glassfish.hk2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.hk2</groupId>
+                <artifactId>hk2-locator</artifactId>
+                <version>${org.glassfish.hk2.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.mysql</groupId>

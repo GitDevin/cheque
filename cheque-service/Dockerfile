@@ -1,4 +1,4 @@
-FROM openjdk:8
+FROM eclipse-temurin:11
 
 ENV CHEQUE_VERSION=0.1.1-SNAPSHOT
 

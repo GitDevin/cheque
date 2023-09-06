@@ -32,7 +32,7 @@ database:
   driverClass: com.mysql.cj.jdbc.Driver
   user: ${DB_USER}
   password: ${DB_PASSWORD}
-  url: jdbc:mysql://mysql:3306?useSSL=false&serverTimezone=Australia/Sydney
+  url: jdbc:mysql://mysql:3306?useSSL=false&serverTimezone=America/Vancouver
   # the SQL query to run when validating a connection's liveness
   validationQuery: "/* MyService Health Check */ SELECT 1"
 
@@ -45,17 +45,17 @@ logging:
   appenders:
     - type: console
       target: stdout
-      timeZone: Australia/Sydney
+      timeZone: America/Vancouver
 
     - type: file
       currentLogFilename: ./logs/cheque.log
       archivedLogFilenamePattern: ./logs/cheque-%d.log.gz
       archivedFileCount: 24
-      timeZone: Australia/Sydney
+      timeZone: America/Vancouver
 
     - type: file
       threshold: DEBUG
       currentLogFilename: ./logs/cheque-debug.log
       archivedLogFilenamePattern: ./logs/cheque-debug-%d.log.gz
       archivedFileCount: 24
-      timeZone: Australia/Sydney
+      timeZone: America/Vancouver

@@ -5,8 +5,8 @@ import io.dropwizard.core.Configuration
 import io.dropwizard.db.DataSourceFactory
 import io.dropwizard.flyway.FlywayFactory
 
-import jakarta.validation.Valid
-import jakarta.validation.constraints.NotNull
+import javax.validation.Valid
+import javax.validation.constraints.NotNull
 
 /**
  * Created on 2016-04-20.
@@ -24,26 +24,26 @@ class ChequeConfiguration extends Configuration {
     private FlywayFactory flyway = new FlywayFactory()
 
     @JsonProperty("database")
-    public void setDataSourceFactory(DataSourceFactory factory) {
+    void setDataSourceFactory(DataSourceFactory factory) {
         this.database = factory
     }
 
     @JsonProperty("database")
-    public DataSourceFactory getDataSourceFactory() {
+    DataSourceFactory getDataSourceFactory() {
         return database
     }
 
     @JsonProperty("flyway")
-    public FlywayFactory getFlywayFactory() {
+    FlywayFactory getFlywayFactory() {
         return flyway
     }
 
     @JsonProperty("flyway")
-    public void setFlywayFactory(FlywayFactory flywayFactory) {
+    void setFlywayFactory(FlywayFactory flywayFactory) {
         this.flyway = flywayFactory
     }
 
-    public Map<String, Map<String, String>> getViewRendererConfiguration() {
+    Map<String, Map<String, String>> getViewRendererConfiguration() {
         return viewRendererConfiguration
     }
 }

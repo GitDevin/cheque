@@ -1,10 +1,10 @@
 package com.kyl.cheque.resources
 
-//import com.codahale.metrics.annotation.Timed
+import com.codahale.metrics.annotation.Timed
 
-import jakarta.ws.rs.GET
-import jakarta.ws.rs.Path
-import jakarta.ws.rs.core.Response
+import javax.ws.rs.GET
+import javax.ws.rs.Path
+import javax.ws.rs.core.Response
 
 /**
  * Created on 2016-05-02.
@@ -13,10 +13,10 @@ import jakarta.ws.rs.core.Response
 @Path('/')
 class HomepageViewResources {
 
-//    @Timed
+    @Timed
     @GET
     @Path('/')
-    public Response getHomepage() {
+    Response getHomepage() {
         return Response.seeOther(URI.create('/cheque/view/all')).build()
     }
 }

@@ -13,7 +13,7 @@ class ChequesView extends View {
         this.cheques = cheques
     }
 
-    public List<Cheque> getCheques() {
+    List<Cheque> getCheques() {
         return this.cheques
     }
 }

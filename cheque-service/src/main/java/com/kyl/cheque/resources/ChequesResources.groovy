@@ -1,16 +1,16 @@
 package com.kyl.cheque.resources
 
-//import com.codahale.metrics.annotation.Timed
+import com.codahale.metrics.annotation.Timed
 import com.kyl.cheque.core.Cheque
 import com.kyl.cheque.core.MoneyFormatter
 import com.kyl.cheque.db.ChequeDAO
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-import jakarta.validation.Valid
-import jakarta.ws.rs.*
-import jakarta.ws.rs.core.MediaType
-import jakarta.ws.rs.core.Response
+import javax.validation.Valid
+import javax.ws.rs.*
+import javax.ws.rs.core.MediaType
+import javax.ws.rs.core.Response
 
 /**
  * Created on 2016-04-20.
@@ -27,10 +27,10 @@ class ChequesResources {
         this.formatter = formatter
     }
 
-//    @Timed
+    @Timed
     @GET
     @Path('/all')
-    public Response getAllCheques() {
+    Response getAllCheques() {
         def cheques = this.dao.getAllCheques()
 
         if (cheques == null || cheques.isEmpty()) {
@@ -40,15 +40,15 @@ class ChequesResources {
         return Response.ok(cheques).build()
     }
 
-//    @Timed
+    @Timed
     @PUT
     @Path('/put')
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createCheque(@Valid Cheque cheque) {
+    Response createCheque(@Valid Cheque cheque) {
         try {
             cheque.amountDesc = formatter.formatMoney(cheque.dollar, cheque.cent, "en_AU")
         } catch (IllegalArgumentException e) {
-            def errorJson = JsonOutput.toJson(["error": e.getMessage()])
+            def errorJson = JsonOutput.toJson([error: e.getMessage()])
             LOG.error("Failed to create cheque: ${e.getMessage()}")
             return Response.status(Response.Status.BAD_REQUEST).entity(errorJson).build()
         }
@@ -63,10 +63,10 @@ class ChequesResources {
         return Response.created(URI.create("/cheque/service/id/${chequeId}")).build()
     }
 
-//    @Timed
+    @Timed
     @GET
     @Path("/recipient/{recipient}")
-    public Response getAllChequesPaidTo(@PathParam('recipient') String recipient) {
+    Response getAllChequesPaidTo(@PathParam('recipient') String recipient) {
         def cheques = this.dao.getAllChequesPaidTo(recipient)
         if (cheques == null || cheques.isEmpty()) {
             LOG.info("Recipient ${recipient} is not found.")
@@ -75,10 +75,10 @@ class ChequesResources {
         return Response.ok(cheques).build()
     }
 
-//    @Timed
+    @Timed
     @GET
     @Path("/id/{chequeId}")
-    public Response getCheque(@PathParam('chequeId') long chequeId) {
+    Response getCheque(@PathParam('chequeId') long chequeId) {
         def cheque = this.dao.getCheque(chequeId)
         if (cheque == null) {
             return Response.status(Response.Status.NOT_FOUND).build()

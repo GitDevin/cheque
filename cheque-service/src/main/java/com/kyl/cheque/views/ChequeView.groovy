@@ -17,11 +17,11 @@ class ChequeView extends View {
         this.ifReadOnly = ifReadOnly
     }
 
-    public Cheque getCheque() {
+    Cheque getCheque() {
         return this.cheque
     }
 
-    public boolean getIfReadOnly() {
+    boolean getIfReadOnly() {
         return this.ifReadOnly
     }
 }
