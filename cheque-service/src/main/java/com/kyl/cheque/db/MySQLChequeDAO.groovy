@@ -1,14 +1,16 @@
 package com.kyl.cheque.db
 
 import com.kyl.cheque.core.Cheque
-import org.skife.jdbi.v2.sqlobject.*
-import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapperFactory
-import org.skife.jdbi.v2.tweak.BeanMapperFactory
+import org.jdbi.v3.sqlobject.customizer.Bind
+import org.jdbi.v3.sqlobject.customizer.BindBean
+import org.jdbi.v3.sqlobject.statement.GetGeneratedKeys
+import org.jdbi.v3.sqlobject.statement.SqlQuery
+import org.jdbi.v3.sqlobject.statement.SqlUpdate
 
 /**
  * Created on 2016-04-20.
  */
-@RegisterMapperFactory(BeanMapperFactory.class)
+//@RegisterMapperFactory(BeanMapperFactory.class)
 interface MySQLChequeDAO extends ChequeDAO {
 
     @SqlQuery("""SELECT

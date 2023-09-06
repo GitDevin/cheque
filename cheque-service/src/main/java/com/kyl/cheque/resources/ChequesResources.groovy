@@ -1,17 +1,16 @@
 package com.kyl.cheque.resources
 
-import com.codahale.metrics.annotation.Timed
+//import com.codahale.metrics.annotation.Timed
 import com.kyl.cheque.core.Cheque
 import com.kyl.cheque.core.MoneyFormatter
 import com.kyl.cheque.db.ChequeDAO
-import groovy.json.JsonOutput
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-import javax.validation.Valid
-import javax.ws.rs.*
-import javax.ws.rs.core.MediaType
-import javax.ws.rs.core.Response
+import jakarta.validation.Valid
+import jakarta.ws.rs.*
+import jakarta.ws.rs.core.MediaType
+import jakarta.ws.rs.core.Response
 
 /**
  * Created on 2016-04-20.
@@ -28,7 +27,7 @@ class ChequesResources {
         this.formatter = formatter
     }
 
-    @Timed
+//    @Timed
     @GET
     @Path('/all')
     public Response getAllCheques() {
@@ -41,7 +40,7 @@ class ChequesResources {
         return Response.ok(cheques).build()
     }
 
-    @Timed
+//    @Timed
     @PUT
     @Path('/put')
     @Consumes(MediaType.APPLICATION_JSON)
@@ -64,7 +63,7 @@ class ChequesResources {
         return Response.created(URI.create("/cheque/service/id/${chequeId}")).build()
     }
 
-    @Timed
+//    @Timed
     @GET
     @Path("/recipient/{recipient}")
     public Response getAllChequesPaidTo(@PathParam('recipient') String recipient) {
@@ -76,7 +75,7 @@ class ChequesResources {
         return Response.ok(cheques).build()
     }
 
-    @Timed
+//    @Timed
     @GET
     @Path("/id/{chequeId}")
     public Response getCheque(@PathParam('chequeId') long chequeId) {

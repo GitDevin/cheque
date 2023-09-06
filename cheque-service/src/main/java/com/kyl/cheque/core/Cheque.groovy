@@ -3,11 +3,11 @@ package com.kyl.cheque.core
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import io.dropwizard.validation.ValidationMethod
-import org.hibernate.validator.constraints.NotEmpty
+import jakarta.validation.constraints.NotEmpty
 
-import javax.validation.constraints.Max
-import javax.validation.constraints.Min
-import javax.validation.constraints.NotNull
+import jakarta.validation.constraints.Max
+import jakarta.validation.constraints.Min
+import jakarta.validation.constraints.NotNull
 import java.time.LocalDate
 import java.time.LocalDateTime
 

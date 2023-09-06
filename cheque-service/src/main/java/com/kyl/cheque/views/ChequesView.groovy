@@ -1,7 +1,7 @@
 package com.kyl.cheque.views
 
 import com.kyl.cheque.core.Cheque
-import io.dropwizard.views.View
+import io.dropwizard.views.common.View
 
 /**
  * Created on 2016-04-20.
