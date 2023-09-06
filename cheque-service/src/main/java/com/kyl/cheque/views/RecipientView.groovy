@@ -10,7 +10,7 @@ class RecipientView extends View {
     List<Cheque> cheques
     String recipient
 
-    protected RecipientView(List<Cheque> cheques) {
+    RecipientView(List<Cheque> cheques) {
         super('recipient.ftl')
         this.cheques = cheques
 

@@ -11,7 +11,7 @@ class ChequeView extends View {
     Cheque cheque
     final boolean ifReadOnly
 
-    protected ChequeView(Cheque cheque, boolean ifReadOnly) {
+    ChequeView(Cheque cheque, boolean ifReadOnly) {
         super('cheque.ftl')
         this.cheque = cheque
         this.ifReadOnly = ifReadOnly

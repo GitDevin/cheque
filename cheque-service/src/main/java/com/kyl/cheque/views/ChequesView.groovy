@@ -8,7 +8,7 @@ import io.dropwizard.views.common.View
  */
 class ChequesView extends View {
     List<Cheque> cheques
-    protected ChequesView(List<Cheque> cheques) {
+    ChequesView(List<Cheque> cheques) {
         super('cheques.ftl')
         this.cheques = cheques
     }
