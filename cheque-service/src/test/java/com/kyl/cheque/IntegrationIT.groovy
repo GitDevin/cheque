@@ -8,13 +8,16 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider
 import com.kyl.cheque.core.Cheque
 import com.kyl.cheque.core.ChequeTest
 import io.dropwizard.testing.ConfigOverride
-import io.dropwizard.testing.junit.DropwizardAppRule
+import io.dropwizard.testing.ResourceHelpers
+import io.dropwizard.testing.junit5.DropwizardAppExtension
+import io.dropwizard.testing.junit5.DropwizardExtensionsSupport
 import org.flywaydb.core.Flyway
 import org.junit.After
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.ClassRule
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
 import javax.ws.rs.client.Client
 import javax.ws.rs.client.ClientBuilder
@@ -29,6 +32,7 @@ import static org.junit.Assert.assertEquals
 /**
  * Created on 2016-09-06.
  */
+@ExtendWith(DropwizardExtensionsSupport.class)
 class IntegrationIT {
     static final String CONFIG_PATH = "src/test/resources/cheque.yml"
 
@@ -38,32 +42,32 @@ class IntegrationIT {
 
     static JacksonJsonProvider JACKSON_JSON_PROVIDER = new JacksonJaxbJsonProvider()
 
-    Flyway flyway
-
-    @ClassRule
-    public static final DropwizardAppRule<ChequeConfiguration> RULE = new DropwizardAppRule<>(
-            ChequeApplication.class, CONFIG_PATH,
+    private static DropwizardAppExtension<ChequeConfiguration> EXT = new DropwizardAppExtension<>(
+            ChequeApplication.class,
+            ResourceHelpers.resourceFilePath("cheque.yaml"),
             ConfigOverride.config("database.driverClass", "org.h2.Driver"),
             ConfigOverride.config("database.url", DB_URL),
             ConfigOverride.config("database.user", DB_USER),
             ConfigOverride.config("database.password", DB_PASSWORD)
     )
 
-    Client client
+    Flyway flyway
+
+    static Client client
 
     @BeforeClass
-    public static void setUpClass() throws Exception {
+    static void setUpClass() throws Exception {
         JACKSON_JSON_PROVIDER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         JACKSON_JSON_PROVIDER.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
 
         JACKSON_JSON_PROVIDER.locateMapper(Object.class, MediaType.APPLICATION_JSON_TYPE)
                 .registerModule(new JavaTimeModule())
+
+        client = EXT.client().register(JACKSON_JSON_PROVIDER)
     }
 
     @Before
     public void setUp() {
-        client = ClientBuilder.newClient().register(JACKSON_JSON_PROVIDER)
-
         flyway = new Flyway()
         flyway.setDataSource(DB_URL, DB_USER, DB_PASSWORD)
         flyway.setSchemas("FINANCE")

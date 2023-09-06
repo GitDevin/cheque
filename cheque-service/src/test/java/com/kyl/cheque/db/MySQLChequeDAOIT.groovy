@@ -1,18 +1,22 @@
 package com.kyl.cheque.db
 
 import com.codahale.metrics.MetricRegistry
+import com.kyl.cheque.core.Cheque
 import com.kyl.cheque.core.ChequeTest
+import io.dropwizard.core.setup.Environment
 import io.dropwizard.db.DataSourceFactory
 import io.dropwizard.jackson.Jackson
-import io.dropwizard.jdbi.DBIFactory
-import io.dropwizard.setup.Environment
+import io.dropwizard.jdbi3.JdbiFactory
+import io.dropwizard.testing.junit5.DAOTestExtension
+import io.dropwizard.testing.junit5.DropwizardExtensionsSupport
 import org.flywaydb.core.Flyway
-import org.junit.AfterClass
-import org.junit.BeforeClass
+import org.jdbi.v3.core.Handle
+import org.jdbi.v3.core.Jdbi
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.skife.jdbi.v2.DBI
-import org.skife.jdbi.v2.Handle
+import org.junit.jupiter.api.extension.ExtendWith
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
@@ -20,20 +24,23 @@ import static org.junit.Assert.assertTrue
 /**
  * Created on 2016-09-03.
  */
+@ExtendWith(DropwizardExtensionsSupport.class)
 class MySQLChequeDAOIT {
     private static final String DB_URL = "jdbc:h2:mem:FINANCE;MODE=MSSQLServer"
     private static final String DB_USER = "sa"
     private static final String DB_PASSWORD = "sa_password"
 
-    private static DBI dbi
+    private static Jdbi jdbi
     private static Handle handle
     private MySQLChequeDAO dao
 
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-        def environment = new Environment("test-env", Jackson.newObjectMapper(), null, new MetricRegistry(), null)
-        dbi = new DBIFactory().build(environment, getDataSourceFactory(), "test")
-        handle = dbi.open()
+    public DAOTestExtension database = DAOTestExtension.newBuilder().addEntityClass(Cheque.class).build();
+
+    @BeforeAll
+    static void setUpClass() throws Exception {
+        def environment = new Environment("test-env")
+        jdbi = new JdbiFactory().build(environment, getDataSourceFactory(), "test")
+        handle = jdbi.open()
 
         def flyway = new Flyway()
         flyway.setDataSource(DB_URL, DB_USER, DB_PASSWORD)
@@ -41,14 +48,16 @@ class MySQLChequeDAOIT {
         flyway.migrate()
     }
 
-    @AfterClass
-    public static void tearDownClass() {
-        dbi.close(handle)
+    @AfterAll
+    static void tearDownClass() {
+        handle.close()
     }
 
     @BeforeEach
-    public void setUp() {
-        this.dao = dbi.onDemand(MySQLChequeDAO.class)
+    void setUp() {
+        def factory = database.getSessionFactory()
+
+//        this.dao = new MySQLChequeDAO(database.getSessionFactory())
     }
 
     private static DataSourceFactory getDataSourceFactory() {
@@ -61,7 +70,7 @@ class MySQLChequeDAOIT {
     }
 
     @Test
-    public void testGetAllCheques() {
+    void testGetAllCheques() {
         def cheques = dao.getAllCheques()
 
         assertEquals("There should be 3 cheques in the db.", cheques.size(), 3)

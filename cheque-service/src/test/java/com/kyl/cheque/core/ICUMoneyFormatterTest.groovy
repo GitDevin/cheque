@@ -1,6 +1,7 @@
 package com.kyl.cheque.core
 
 import groovy.test.GroovyAssert
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.BeforeEach
 
@@ -80,7 +81,7 @@ class ICUMoneyFormatterTest {
     void testLargeAmount() {
         def money = new Money(dollar: 9472642, cent: 82)
         def result = formatter.formatMoney(money, "en_AU")
-        GroovyAssert.assertEquals(
+        Assertions.assertEquals(
                 "nine million four hundred seventy-two thousand six hundred forty-two dollars and eighty-two cents",
                 result)
     }

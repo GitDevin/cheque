@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import io.dropwizard.jackson.Jackson
 import org.junit.jupiter.api.Test
 
-import static io.dropwizard.testing.FixtureHelpers.fixture
 import static org.junit.Assert.assertEquals
 
 /**
@@ -25,14 +24,14 @@ class MoneyTest {
         final def money = createMoney(34, 11)
 
         final def expected = MAPPER.writeValueAsString(
-                MAPPER.readValue(fixture("fixtures/money.json"), Money.class))
+                MAPPER.readValue(getClass().getResource("/fixtures/money.json"), Money.class))
 
         assertEquals("BriefSummary serialization test.", MAPPER.writeValueAsString(money), expected)
     }
 
     @Test
     public void deserialize() {
-        final def result = MAPPER.readValue(fixture('fixtures/money.json'), Money.class)
+        final def result = MAPPER.readValue(getClass().getResource('/fixtures/money.json'), Money.class)
 
         final def expected = createMoney(34, 11)
 

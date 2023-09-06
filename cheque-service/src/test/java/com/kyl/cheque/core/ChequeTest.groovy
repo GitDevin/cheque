@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test
 
 import java.time.LocalDate
 
-import static io.dropwizard.testing.FixtureHelpers.fixture
 import static org.junit.Assert.assertEquals
 
 /**
@@ -38,14 +37,14 @@ class ChequeTest {
         final def cheque = createCheque(20, 30, 'receiver', '2016-06-14')
 
         final def expected = MAPPER.writeValueAsString(
-                MAPPER.readValue(fixture("fixtures/cheque.json"), Cheque.class))
+                MAPPER.readValue(getClass().getResource("/fixtures/cheque.json"), Cheque.class))
 
         assertEquals("BriefSummary serialization test.", MAPPER.writeValueAsString(cheque), expected)
     }
 
     @Test
     void deserialize() {
-        def cheque = MAPPER.readValue(fixture('fixtures/cheque.json'), Cheque.class)
+        def cheque = MAPPER.readValue(getClass().getResource('/fixtures/cheque.json'), Cheque.class)
         def expected = createCheque(20, 30, 'receiver', '2016-06-14')
 
         assertEquals('Cheque successfully deserialized.', expected, cheque)

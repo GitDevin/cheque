@@ -1,31 +1,30 @@
 package com.kyl.cheque.resource
 
 import com.kyl.cheque.resources.HomepageViewResources
-import io.dropwizard.testing.junit.ResourceTestRule
-import org.junit.ClassRule
+import io.dropwizard.testing.junit5.ResourceExtension
+import org.glassfish.jersey.test.grizzly.GrizzlyWebTestContainerFactory
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
 import javax.ws.rs.core.Response
 
-import static junit.framework.TestCase.assertTrue
-import static org.junit.Assert.assertEquals
 
 /**
  * Created on 2016-09-04.
  */
 class HomePageResourcesIT {
 
-    @ClassRule
-    public static final ResourceTestRule resource = ResourceTestRule.builder()
+    private static final ResourceExtension EXT = ResourceExtension.builder()
+            .setTestContainerFactory(new GrizzlyWebTestContainerFactory())
             .addResource(new HomepageViewResources())
             .build()
 
     @Test
     public void testHomepageViewResources() {
-        def response = resource.client().target('/').request().get()
+        def response = EXT.client().target('/').request().get()
 
-        assertEquals('Response code should be 404', Response.Status.NOT_FOUND.getStatusCode(), response.getStatus())
+        Assertions.assertEquals(Response.Status.NOT_FOUND.getStatusCode(), response.getStatus(), 'Response code should be 404')
 
-        assertTrue(response.context.resolvedUri.toString().contains('cheque/view/all'))
+        Assertions.assertTrue(response.context.resolvedUri.toString().contains('cheque/view/all'))
     }
 }

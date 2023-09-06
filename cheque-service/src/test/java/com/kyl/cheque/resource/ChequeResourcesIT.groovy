@@ -7,18 +7,21 @@ import com.kyl.cheque.core.ChequeTest
 import com.kyl.cheque.core.MoneyFormatter
 import com.kyl.cheque.db.ChequeDAO
 import com.kyl.cheque.resources.ChequesResources
-import io.dropwizard.testing.junit.ResourceTestRule
-import org.junit.After
-import org.junit.BeforeClass
-import org.junit.ClassRule
+import io.dropwizard.testing.junit5.DropwizardExtensionsSupport
+
+import io.dropwizard.testing.junit5.ResourceExtension
+import org.glassfish.jersey.test.grizzly.GrizzlyWebTestContainerFactory
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
 import javax.ws.rs.client.Entity
 import javax.ws.rs.core.GenericType
 import javax.ws.rs.core.Response
 
-import static junit.framework.TestCase.assertTrue
-import static org.junit.Assert.assertEquals
+
 import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.reset
 import static org.mockito.Mockito.when
@@ -26,25 +29,26 @@ import static org.mockito.Mockito.when
 /**
  * Created on 2016-09-04.
  */
+@ExtendWith(DropwizardExtensionsSupport.class)
 class ChequeResourcesIT {
 
     static ChequeDAO dao = mock(ChequeDAO.class)
     static MoneyFormatter formatter = mock(MoneyFormatter.class)
 
-    @ClassRule
-    public static final ResourceTestRule resource = ResourceTestRule.builder()
+    private static final ResourceExtension EXT = ResourceExtension.builder()
+            .setTestContainerFactory(new GrizzlyWebTestContainerFactory())
             .addResource(new ChequesResources(dao, formatter))
             .build()
 
     static ObjectMapper MAPPER = new ObjectMapper()
 
-    @BeforeClass
-    public static void setUpClass() {
+    @BeforeAll
+    static void setUpClass() {
         MAPPER.registerModule(new JavaTimeModule())
     }
 
-    @After
-    public void tearDown() {
+    @AfterEach
+    void tearDown() {
         reset(dao)
         reset(formatter)
     }
@@ -53,18 +57,18 @@ class ChequeResourcesIT {
     public void testGetAllChequesWithNullCheques() {
         when(dao.getAllCheques()).thenReturn(null)
 
-        def response = resource.client().target('/cheque/service/all').request().get()
+        def response = EXT.target('/cheque/service/all').request().get()
 
-        assertEquals("Status should be NO_CONTENT.", Response.Status.NO_CONTENT.getStatusCode(), response.getStatus())
+        Assertions.assertEquals(Response.Status.NO_CONTENT.getStatusCode(), response.getStatus(), "Status should be NO_CONTENT.")
     }
 
     @Test
     public void testGetAllChequesWithEmptyCheques() {
         when(dao.getAllCheques()).thenReturn(Collections.emptyList())
 
-        def response = resource.client().target('/cheque/service/all').request().get()
+        def response = EXT.target('/cheque/service/all').request().get()
 
-        assertEquals("Status should be NO_CONTENT.", Response.Status.NO_CONTENT.getStatusCode(), response.getStatus())
+        Assertions.assertEquals(Response.Status.NO_CONTENT.getStatusCode(), response.getStatus(), "Status should be NO_CONTENT.")
     }
 
     @Test
@@ -75,20 +79,20 @@ class ChequeResourcesIT {
 
         when(dao.getAllCheques()).thenReturn(cheques)
 
-        def response = resource.client().target('/cheque/service/all').request().get()
+        def response = EXT.target('/cheque/service/all').request().get()
 
-        assertEquals("Status should be OK.", Response.Status.OK.getStatusCode(), response.getStatus())
+        Assertions.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus(), "Status should be OK.")
 
         def result = response.readEntity(new GenericType<List<Cheque>>(){})
 
-        assertEquals('Cheques should not change.', cheques, result)
+        Assertions.assertEquals(cheques, result, 'Cheques should not change.')
     }
 
     @Test
     public void testGetNonExistingCheque() {
-        def response = resource.client().target('/cheque/service/id/' + 99999L).request().get()
+        def response = EXT.target('/cheque/service/id/' + 99999L).request().get()
 
-        assertEquals('Status should be 404.', Response.Status.NOT_FOUND.getStatusCode(), response.getStatus())
+        Assertions.assertEquals(Response.Status.NOT_FOUND.getStatusCode(), response.getStatus(), 'Status should be 404.')
     }
 
     @Test
@@ -98,13 +102,13 @@ class ChequeResourcesIT {
 
         when(dao.getCheque(chequeID)).thenReturn(expected)
 
-        def response = resource.client().target('/cheque/service/id/' + chequeID).request().get()
+        def response = EXT.target('/cheque/service/id/' + chequeID).request().get()
 
-        assertEquals('Status should be OK.', Response.Status.OK.getStatusCode(), response.getStatus())
+        Assertions.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus(), 'Status should be OK.')
 
         def result = response.readEntity(Cheque.class)
 
-        assertEquals('Cheque is not expected value.', expected, result)
+        Assertions.assertEquals(expected, result, 'Cheque is not expected value.')
     }
 
     @Test
@@ -114,9 +118,9 @@ class ChequeResourcesIT {
 
         when(dao.getAllChequesPaidTo(recipient)).thenReturn(expected)
 
-        def response = resource.client().target('/cheque/service/recipient/' + recipient).request().get()
+        def response = EXT.target('/cheque/service/recipient/' + recipient).request().get()
 
-        assertEquals('Status should be 404.', Response.Status.NOT_FOUND.getStatusCode(), response.getStatus())
+        Assertions.assertEquals(Response.Status.NOT_FOUND.getStatusCode(), response.getStatus(), 'Status should be 404.')
     }
 
     @Test
@@ -127,54 +131,54 @@ class ChequeResourcesIT {
 
         when(dao.getAllChequesPaidTo(recipient)).thenReturn(cheques)
 
-        def response = resource.client().target('/cheque/service/recipient/' + recipient).request().get()
+        def response = EXT.target('/cheque/service/recipient/' + recipient).request().get()
 
-        assertEquals('Status should be OK.', Response.Status.OK.getStatusCode(), response.getStatus())
+        Assertions.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus(), 'Status should be OK.')
 
         def result = response.readEntity(new GenericType<List<Cheque>>(){})
 
-        assertEquals('Expecting list of cheques.', cheques, result)
+        Assertions.assertEquals(cheques, result, 'Expecting list of cheques.')
     }
 
     @Test void testPutNegativeDollar() {
         final def cheque = ChequeTest.createCheque(-1, 30, 'sam', '2016-08-23')
 
-        def response = resource.client().target('/cheque/service/put')
+        def response = EXT.target('/cheque/service/put')
                 .request().put(Entity.json(cheque))
 
-        assertEquals('Status should be UNPROCESSABLE_ENTITY.', 422, response.getStatus())
+        Assertions.assertEquals(422, response.getStatus(), 'Status should be UNPROCESSABLE_ENTITY.')
 
         def errors = response.readEntity(Map.class)
-        assertTrue('Dollar validation error message',
+        Assertions.assertEquals(
                 ['dollar must be greater than or equal to 0', 'Amount must be greater than 0.0'].contains(
-                        errors['errors'][0]))
+                        errors['errors'][0]), 'Dollar validation error message')
     }
 
     @Test
     public void testPutNegativeCent() {
         final def cheque = ChequeTest.createCheque(20, -1, 'sam', '2016-08-23')
 
-        def response = resource.client().target('/cheque/service/put')
+        def response = EXT.target('/cheque/service/put')
                 .request().put(Entity.json(cheque))
 
-        assertEquals('Status should be UNPROCESSABLE_ENTITY.', 422, response.getStatus())
+        Assertions.assertEquals(422, response.getStatus(), 'Status should be UNPROCESSABLE_ENTITY.')
 
         def errors = response.readEntity(Map.class)
-        assertEquals('Cent validation error message',
-                'cent must be greater than or equal to 0', errors['errors'][0])
+        Assertions.assertEquals(
+                'cent must be greater than or equal to 0', errors['errors'][0], 'Cent validation error message')
     }
 
     @Test
     public void testPutChequeWithBadCent() {
         final def cheque = ChequeTest.createCheque(20, 130, 'sam', '2016-05-14')
 
-        def response = resource.client().target('/cheque/service/put')
+        def response = EXT.target('/cheque/service/put')
                 .request().put(Entity.json(cheque))
 
-        assertEquals('Status should be UNPROCESSABLE_ENTITY.', 422, response.getStatus())
+        Assertions.assertEquals(422, response.getStatus(), 'Status should be UNPROCESSABLE_ENTITY.')
 
         def errors = response.readEntity(Map.class)
-        assertEquals('Cent validation error message',
+        Assertions.assertEquals('Cent validation error message',
                 'cent must be less than or equal to 99', errors['errors'][0])
     }
 
@@ -182,10 +186,10 @@ class ChequeResourcesIT {
     public void testPutZeroAmount() {
         final def cheque = ChequeTest.createCheque(0, 0, 'sam', '2016-08-23')
 
-        def response = resource.client().target('/cheque/service/put')
+        def response = EXT.target('/cheque/service/put')
                 .request().put(Entity.json(cheque))
 
-        assertEquals('Status should be UNPROCESSABLE_ENTITY.', 422, response.getStatus())
+        Assertions.assertEquals(422, response.getStatus(), 'Status should be UNPROCESSABLE_ENTITY.')
     }
 
     @Test
@@ -193,20 +197,20 @@ class ChequeResourcesIT {
         final def cheque = ChequeTest.createCheque(20, 30, 'NULL', '2016-05-14')
         final def jsonString = MAPPER.writeValueAsString(cheque).replace('"NULL"', 'null')
 
-        def response = resource.client().target('/cheque/service/put')
+        def response = EXT.target('/cheque/service/put')
                 .request().put(Entity.json(jsonString))
 
-        assertEquals('Status should be UNPROCESSABLE_ENTITY.', 422, response.getStatus())
+        Assertions.assertEquals(422, response.getStatus(), 'Status should be UNPROCESSABLE_ENTITY.')
     }
 
     @Test
     public void testPutChequeWithEmptyRecipient() {
         final def cheque = ChequeTest.createCheque(20, 30, '', '2016-05-14')
 
-        def response = resource.client().target('/cheque/service/put')
+        def response = EXT.target('/cheque/service/put')
                 .request().put(Entity.json(cheque))
 
-        assertEquals('Status should be UNPROCESSABLE_ENTITY.', 422, response.getStatus())
+        Assertions.assertEquals(422, response.getStatus(), 'Status should be UNPROCESSABLE_ENTITY.')
     }
 
     @Test
@@ -214,10 +218,10 @@ class ChequeResourcesIT {
         final def cheque = ChequeTest.createCheque(20, 30, 'Sam', '2016-06-14')
         final def jsonString = MAPPER.writeValueAsString(cheque).replace("[2016,6,14]", 'null')
 
-        def response = resource.client().target('/cheque/service/put')
+        def response = EXT.target('/cheque/service/put')
                 .request().put(Entity.json(jsonString))
 
-        assertEquals('Status should be UNPROCESSABLE_ENTITY.', 422, response.getStatus())
+        Assertions.assertEquals(422, response.getStatus(), 'Status should be UNPROCESSABLE_ENTITY.')
     }
 
     @Test
@@ -225,10 +229,10 @@ class ChequeResourcesIT {
         final def cheque = ChequeTest.createCheque(20, 30, 'Sam', '2016-06-14')
         final def jsonString = MAPPER.writeValueAsString(cheque).replace("[2016,6,14]", '[dasfa]')
 
-        def response = resource.client().target('/cheque/service/put')
+        def response = EXT.target('/cheque/service/put')
                 .request().put(Entity.json(jsonString))
 
-        assertEquals('Status should be BAD_REQUEST.', Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus())
+        Assertions.assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus(), 'Status should be BAD_REQUEST.')
     }
 
     @Test
@@ -238,13 +242,13 @@ class ChequeResourcesIT {
 
         when(dao.insertCheque(cheque)).thenReturn(chequeID)
 
-        def response = resource.client().target('/cheque/service/put')
+        def response = EXT.target('/cheque/service/put')
                 .request().put(Entity.json(cheque))
 
-        assertEquals('Status should be CREATED.', Response.Status.CREATED.getStatusCode(), response.getStatus())
+        Assertions.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus(), 'Status should be CREATED.')
 
-        assertTrue('Location in response should point to the new cheque.',
-                response.getLocation().toString().contains('/cheque/service/id/' + chequeID))
+        Assertions.assertTrue(response.getLocation().toString().contains('/cheque/service/id/' + chequeID),
+                'Location in response should point to the new cheque.')
     }
 
     @Test
@@ -254,12 +258,12 @@ class ChequeResourcesIT {
 
         when(dao.insertCheque(cheque)).thenReturn(chequeID)
 
-        def response = resource.client().target('/cheque/service/put')
+        def response = EXT.target('/cheque/service/put')
                 .request().put(Entity.json(cheque))
 
-        assertEquals('Status should be NOT_MODIFIED.',
+        Assertions.assertEquals(
                 Response.Status.NOT_MODIFIED.getStatusCode(),
-                response.getStatus())
+                response.getStatus(), 'Status should be NOT_MODIFIED.')
     }
 
     @Test
@@ -268,10 +272,9 @@ class ChequeResourcesIT {
 
         when(dao.insertCheque(cheque)).thenThrow(RuntimeException.class)
 
-        def response = resource.client().target('/cheque/service/put').request().put(Entity.json(cheque))
+        def response = EXT.target('/cheque/service/put').request().put(Entity.json(cheque))
 
-        assertEquals('Exception when insert into database.',
-                Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
-                response.getStatus())
+        Assertions.assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
+                response.getStatus(), 'Exception when insert into database.')
     }
 }
