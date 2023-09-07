@@ -16,16 +16,16 @@ import org.junit.jupiter.api.Test
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
 
-
 class MySQLChequeDAOIT {
     private static final String DB_URL = "jdbc:h2:mem:test;MODE=ORACLE"
-    private static final String DB_USER = "sa"
-    private static final String DB_PASSWORD = "sa_password"
+    static final String DB_USER = "cheque-user"
+    static final String DB_PASSWORD = "cheque-p4ssw0rd"
 
     private static Jdbi jdbi
     private static Handle handle
-    private MySQLChequeDAO dao
+    private static Flyway flyway
 
+    private MySQLChequeDAO dao
 
     @BeforeAll
     static void setUpClass() throws Exception {
@@ -38,14 +38,16 @@ class MySQLChequeDAOIT {
         config.setSchemas("FINANCE")
         config.setShouldCreateSchemas(true)
         config.setLocationsAsStrings("filesystem:src/test/resources/db/migration")
+        config.setCleanDisabled(false)
 
-        def flyway = new Flyway(config)
+        flyway = new Flyway(config)
         flyway.migrate()
     }
 
     @AfterAll
     static void tearDownClass() {
-        handle.close()
+        handle?.close()
+        flyway?.clean()
     }
 
     @BeforeEach
@@ -75,7 +77,7 @@ class MySQLChequeDAOIT {
 
     @Test
     public void testGetCheque() {
-        def cheque = dao.getCheque(1001l)
+        def cheque = dao.getCheque(2l)
 
         ChequeTest.assertCheque(cheque, 44, 89, 'Tom', '2016-06-17')
     }

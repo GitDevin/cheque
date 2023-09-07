@@ -12,7 +12,7 @@ import io.dropwizard.testing.ResourceHelpers
 import io.dropwizard.testing.junit5.DropwizardAppExtension
 import io.dropwizard.testing.junit5.DropwizardExtensionsSupport
 import org.flywaydb.core.Flyway
-import org.flywaydb.core.api.configuration.ClassicConfiguration
+import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeAll
@@ -31,7 +31,7 @@ import javax.ws.rs.core.Response
  * Created on 2016-09-06.
  */
 @ExtendWith(DropwizardExtensionsSupport.class)
-class IntegrationIT {
+class ApplicationIT {
     static final String DB_URL = "jdbc:h2:mem:test;MODE=ORACLE"
     static final String DB_USER = "cheque-user"
     static final String DB_PASSWORD = "cheque-p4ssw0rd"
@@ -41,14 +41,17 @@ class IntegrationIT {
     private static DropwizardAppExtension<ChequeConfiguration> EXT = new DropwizardAppExtension<>(
             ChequeApplication.class,
             ResourceHelpers.resourceFilePath("cheque.yml"),
+            ConfigOverride.config("database.driverClass", "org.h2.Driver"),
             ConfigOverride.config("database.url", DB_URL),
             ConfigOverride.config("database.user", DB_USER),
-            ConfigOverride.config("database.password", DB_PASSWORD)
+            ConfigOverride.config("database.password", DB_PASSWORD),
+            ConfigOverride.config("flyway.locations", "filesystem:src/test/resources/db/migration"),
+            ConfigOverride.config("flyway.schemas", "FINANCE"),
+            ConfigOverride.config("flyway.locations", "filesystem:src/test/resources/db/migration")
     )
 
-    Flyway flyway
-
     static Client client
+    static Flyway flyway
 
     @BeforeAll
     static void setUpClass() throws Exception {
@@ -57,26 +60,25 @@ class IntegrationIT {
 
         JACKSON_JSON_PROVIDER.locateMapper(Object.class, MediaType.APPLICATION_JSON_TYPE)
                 .registerModule(new JavaTimeModule())
-
-        client = EXT.client().register(JACKSON_JSON_PROVIDER)
     }
 
     @BeforeEach
     public void setUp() {
-        def config = new ClassicConfiguration()
-        config.setDataSource(DB_URL, DB_USER, DB_PASSWORD)
-        config.setSchemas("FINANCE")
-        config.setShouldCreateSchemas(true)
-        config.setLocationsAsStrings("filesystem:src/test/resources/db/migration")
-
-        flyway = new Flyway(config)
-        flyway.migrate()
+        client = EXT.client().register(JACKSON_JSON_PROVIDER)
     }
 
     @AfterEach
-    public void tearDown() {
-        client.close()
+    public void tearDownEach() {
+        def dataSource = EXT.getConfiguration().getDataSourceFactory().build(EXT.getApplication().bootstrap.getMetricRegistry(), 'Flyway')
+        flyway = EXT.getConfiguration().getFlywayFactory().build(dataSource)
         flyway.clean()
+        flyway.migrate()
+    }
+
+    @AfterAll
+    public static void tearDown() {
+        client?.close()
+        flyway?.clean()
     }
 
     @Test
@@ -135,6 +137,7 @@ class IntegrationIT {
         final def cheque = ChequeTest.createCheque(29, 83, 'Linda', '2016-08-23')
 
         def response = client.target(url).request().put(Entity.json(cheque))
+        def result = response.readEntity(new GenericType<Map<String, String>>(){})
 
         Assertions.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus(), 'Status should be CREATED.')
 

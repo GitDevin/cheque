@@ -92,6 +92,9 @@
         <org.flywaydb.flyway-core.version>9.22.0</org.flywaydb.flyway-core.version>
         <junit.version>5.10.0</junit.version>
         <org.mockito.version>5.5.0</org.mockito.version>
+        <jakarta.xml.bind.version>2.3.3</jakarta.xml.bind.version>
+        <org.apache.httpcomponents.client5.version>5.2.1</org.apache.httpcomponents.client5.version>
+        <org.junit.platform.suite.version>1.10.0</org.junit.platform.suite.version>
         <org.apache.maven.plugins.shade.version>2.3</org.apache.maven.plugins.shade.version>
         <org.apache.maven.compiler.plugin.version>3.11.0</org.apache.maven.compiler.plugin.version>
         <java.source.version>17</java.source.version>
@@ -586,11 +589,56 @@
                 <scope>test</scope>
             </dependency>
             <dependency>
+                <groupId>com.fasterxml.jackson.module</groupId>
+                <artifactId>jackson-module-jaxb-annotations</artifactId>
+                <version>${com.fasterxml.jackson.core.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.connectors</groupId>
+                <artifactId>jersey-apache5-connector</artifactId>
+                <version>${org.glassfish.jersey.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
                 <groupId>org.glassfish.jersey.test-framework.providers</groupId>
                 <artifactId>jersey-test-framework-provider-grizzly2</artifactId>
                 <version>${org.glassfish.jersey.version}</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>jakarta.xml.bind</groupId>
+                <artifactId>jakarta.xml.bind-api</artifactId>
+                <version>${jakarta.xml.bind.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents.client5</groupId>
+                <artifactId>httpclient5</artifactId>
+                <version>${org.apache.httpcomponents.client5.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.platform</groupId>
+                <artifactId>junit-platform-suite-api</artifactId>
+                <version>${org.junit.platform.suite.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.platform</groupId>
+                <artifactId>junit-platform-suite-engine</artifactId>
+                <version>${org.junit.platform.suite.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+<!--            junit-platform-suite-commons in test scope-->
+
+<!--            junit-platform-launcher in test scope-->
+
+<!--            junit-platform-engine in test scope-->
+
+<!--            junit-platform-commons in test scope-->
+
+<!--            opentest4j in test scope-->
         </dependencies>
     </dependencyManagement>
 

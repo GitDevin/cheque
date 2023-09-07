@@ -3,12 +3,12 @@ package com.kyl.cheque.resource
 import com.kyl.cheque.resources.HomepageViewResources
 import io.dropwizard.testing.junit5.DropwizardExtensionsSupport
 import io.dropwizard.testing.junit5.ResourceExtension
-import org.glassfish.jersey.test.grizzly.GrizzlyWebTestContainerFactory
 import org.glassfish.jersey.test.inmemory.InMemoryTestContainerFactory
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
+import javax.ws.rs.core.GenericType
 import javax.ws.rs.core.Response
 
 
@@ -26,6 +26,8 @@ class HomePageResourcesIT {
     @Test
     public void testHomepageViewResources() {
         def response = EXT.client().target('/').request().get()
+
+        def result = response.readEntity(new GenericType<Map<String, String>>(){})
 
         Assertions.assertEquals(Response.Status.NOT_FOUND.getStatusCode(), response.getStatus(), 'Response code should be 404')
 

@@ -43,10 +43,12 @@ class MoneySpellerResourcesIT {
     @Test
     public void testFormatInvalidMoney() {
         def response = EXT.target('/money/service/format').
-                request().post(Entity.json([dollar: 32, nocent: 23]))
+                request().post(Entity.json([nodollar: 32, nocent: 23]))
 
-        Assertions.assertEquals(Response.Status.BAD_REQUEST.getStatusCode(),
-                response.getStatus(), 'Status code should be BAD_REQUEST')
+        Assertions.assertEquals(Response.Status.ACCEPTED.getStatusCode(),
+                response.getStatus(), 'Status code should be ACCEPTED')
+        def result = response.readEntity(new GenericType<Map<String, String>>(){})
+        Assertions.assertEquals("zero dollar and zero cent", result['result'])
     }
 
     @Test

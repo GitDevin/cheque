@@ -58,15 +58,15 @@ class ChequeApplication extends Application<ChequeConfiguration> {
         this.bootstrap = bootstrap
     }
 
-    void migrateDatabase(ChequeConfiguration chequesConfiguration, Bootstrap<ChequeConfiguration> bootstrap) {
-        def dataSource = chequesConfiguration.getDataSourceFactory().build(this.bootstrap.getMetricRegistry(), 'Flyway')
+    void migrateDatabase(ChequeConfiguration chequesConfiguration, MetricRegistry metricRegistry) {
+        def dataSource = chequesConfiguration.getDataSourceFactory().build(metricRegistry, 'Flyway')
         def flyway = chequesConfiguration.getFlywayFactory().build(dataSource)
         flyway.migrate()
     }
 
     @Override
     void run(ChequeConfiguration chequesConfiguration, Environment environment) throws Exception {
-        migrateDatabase(chequesConfiguration, this.bootstrap)
+        migrateDatabase(chequesConfiguration, this.bootstrap.getMetricRegistry())
 
         def moneyFormatter = new ICUMoneyFormatter()
         environment.jersey().register(new MoneySpellerResources(moneyFormatter))
