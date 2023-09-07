@@ -2,7 +2,6 @@ package com.kyl.cheque.db
 
 import com.kyl.cheque.core.Cheque
 import org.jdbi.v3.sqlobject.config.RegisterBeanMapper
-import org.jdbi.v3.sqlobject.config.RegisterBeanMappers
 import org.jdbi.v3.sqlobject.customizer.Bind
 import org.jdbi.v3.sqlobject.customizer.BindBean
 import org.jdbi.v3.sqlobject.statement.GetGeneratedKeys
@@ -38,9 +37,9 @@ interface MySQLChequeDAO extends ChequeDAO {
     List<Cheque> getAllChequesPaidTo(@Bind("recipient") String recipient)
 
     @SqlUpdate("""INSERT INTO FINANCE.CHEQUE
-                    (CHEQUE_ID, DOLLAR, CENT, RECIPIENT, PAYMENT_DATE, AMOUNT_DESC, ROWADDDT, ROWUPDDT)
+                    (DOLLAR, CENT, RECIPIENT, PAYMENT_DATE, AMOUNT_DESC, ROWADDDT, ROWUPDDT)
                   VALUES
-                    (NULL, :c.dollar, :c.cent, :c.recipient, :c.paymentDate, :c.amountDesc,
+                    (:c.dollar, :c.cent, :c.recipient, :c.paymentDate, :c.amountDesc,
                     NOW(), NOW())""")
     @GetGeneratedKeys
     long insertCheque(@BindBean("c") Cheque cheque)

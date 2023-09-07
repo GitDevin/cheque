@@ -1,32 +1,24 @@
 package com.kyl.cheque.db
 
-import com.codahale.metrics.MetricRegistry
-import com.kyl.cheque.core.Cheque
 import com.kyl.cheque.core.ChequeTest
 import io.dropwizard.core.setup.Environment
 import io.dropwizard.db.DataSourceFactory
-import io.dropwizard.jackson.Jackson
 import io.dropwizard.jdbi3.JdbiFactory
-import io.dropwizard.testing.junit5.DAOTestExtension
-import io.dropwizard.testing.junit5.DropwizardExtensionsSupport
 import org.flywaydb.core.Flyway
+import org.flywaydb.core.api.configuration.ClassicConfiguration
 import org.jdbi.v3.core.Handle
 import org.jdbi.v3.core.Jdbi
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
 
-/**
- * Created on 2016-09-03.
- */
-@ExtendWith(DropwizardExtensionsSupport.class)
+
 class MySQLChequeDAOIT {
-    private static final String DB_URL = "jdbc:h2:mem:FINANCE;MODE=MSSQLServer"
+    private static final String DB_URL = "jdbc:h2:mem:test;MODE=ORACLE"
     private static final String DB_USER = "sa"
     private static final String DB_PASSWORD = "sa_password"
 
@@ -34,7 +26,6 @@ class MySQLChequeDAOIT {
     private static Handle handle
     private MySQLChequeDAO dao
 
-    public DAOTestExtension database = DAOTestExtension.newBuilder().addEntityClass(Cheque.class).build();
 
     @BeforeAll
     static void setUpClass() throws Exception {
@@ -42,9 +33,13 @@ class MySQLChequeDAOIT {
         jdbi = new JdbiFactory().build(environment, getDataSourceFactory(), "test")
         handle = jdbi.open()
 
-        def flyway = new Flyway()
-        flyway.setDataSource(DB_URL, DB_USER, DB_PASSWORD)
-        flyway.setSchemas("FINANCE")
+        def config = new ClassicConfiguration()
+        config.setDataSource(DB_URL, DB_USER, DB_PASSWORD)
+        config.setSchemas("FINANCE")
+        config.setShouldCreateSchemas(true)
+        config.setLocationsAsStrings("filesystem:src/test/resources/db/migration")
+
+        def flyway = new Flyway(config)
         flyway.migrate()
     }
 
@@ -55,9 +50,7 @@ class MySQLChequeDAOIT {
 
     @BeforeEach
     void setUp() {
-        def factory = database.getSessionFactory()
-
-//        this.dao = new MySQLChequeDAO(database.getSessionFactory())
+        dao = jdbi.onDemand(MySQLChequeDAO.class)
     }
 
     private static DataSourceFactory getDataSourceFactory() {
@@ -82,7 +75,7 @@ class MySQLChequeDAOIT {
 
     @Test
     public void testGetCheque() {
-        def cheque = dao.getCheque(2l)
+        def cheque = dao.getCheque(1001l)
 
         ChequeTest.assertCheque(cheque, 44, 89, 'Tom', '2016-06-17')
     }
