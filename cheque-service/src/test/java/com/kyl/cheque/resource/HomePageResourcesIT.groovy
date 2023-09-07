@@ -1,10 +1,13 @@
 package com.kyl.cheque.resource
 
 import com.kyl.cheque.resources.HomepageViewResources
+import io.dropwizard.testing.junit5.DropwizardExtensionsSupport
 import io.dropwizard.testing.junit5.ResourceExtension
 import org.glassfish.jersey.test.grizzly.GrizzlyWebTestContainerFactory
+import org.glassfish.jersey.test.inmemory.InMemoryTestContainerFactory
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
 import javax.ws.rs.core.Response
 
@@ -12,10 +15,11 @@ import javax.ws.rs.core.Response
 /**
  * Created on 2016-09-04.
  */
+@ExtendWith(DropwizardExtensionsSupport.class)
 class HomePageResourcesIT {
 
     private static final ResourceExtension EXT = ResourceExtension.builder()
-            .setTestContainerFactory(new GrizzlyWebTestContainerFactory())
+            .setTestContainerFactory(new InMemoryTestContainerFactory())
             .addResource(new HomepageViewResources())
             .build()
 

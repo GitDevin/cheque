@@ -12,40 +12,35 @@ import io.dropwizard.testing.ResourceHelpers
 import io.dropwizard.testing.junit5.DropwizardAppExtension
 import io.dropwizard.testing.junit5.DropwizardExtensionsSupport
 import org.flywaydb.core.Flyway
-import org.junit.After
-import org.junit.Before
-import org.junit.BeforeClass
-import org.junit.ClassRule
+import org.flywaydb.core.api.configuration.ClassicConfiguration
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
 import javax.ws.rs.client.Client
-import javax.ws.rs.client.ClientBuilder
 import javax.ws.rs.client.Entity
 import javax.ws.rs.core.GenericType
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
 
-import static junit.framework.TestCase.assertTrue
-import static org.junit.Assert.assertEquals
 
 /**
  * Created on 2016-09-06.
  */
 @ExtendWith(DropwizardExtensionsSupport.class)
 class IntegrationIT {
-    static final String CONFIG_PATH = "src/test/resources/cheque.yml"
-
-    static final String DB_URL = "jdbc:h2:mem:FINANCEMODE=MSSQLServer"
-    static final String DB_USER = "sa"
-    static final String DB_PASSWORD = "sa_password"
+    static final String DB_URL = "jdbc:h2:mem:test;MODE=ORACLE"
+    static final String DB_USER = "cheque-user"
+    static final String DB_PASSWORD = "cheque-p4ssw0rd"
 
     static JacksonJsonProvider JACKSON_JSON_PROVIDER = new JacksonJaxbJsonProvider()
 
     private static DropwizardAppExtension<ChequeConfiguration> EXT = new DropwizardAppExtension<>(
             ChequeApplication.class,
-            ResourceHelpers.resourceFilePath("cheque.yaml"),
-            ConfigOverride.config("database.driverClass", "org.h2.Driver"),
+            ResourceHelpers.resourceFilePath("cheque.yml"),
             ConfigOverride.config("database.url", DB_URL),
             ConfigOverride.config("database.user", DB_USER),
             ConfigOverride.config("database.password", DB_PASSWORD)
@@ -55,7 +50,7 @@ class IntegrationIT {
 
     static Client client
 
-    @BeforeClass
+    @BeforeAll
     static void setUpClass() throws Exception {
         JACKSON_JSON_PROVIDER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         JACKSON_JSON_PROVIDER.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
@@ -66,15 +61,19 @@ class IntegrationIT {
         client = EXT.client().register(JACKSON_JSON_PROVIDER)
     }
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        flyway = new Flyway()
-        flyway.setDataSource(DB_URL, DB_USER, DB_PASSWORD)
-        flyway.setSchemas("FINANCE")
+        def config = new ClassicConfiguration()
+        config.setDataSource(DB_URL, DB_USER, DB_PASSWORD)
+        config.setSchemas("FINANCE")
+        config.setShouldCreateSchemas(true)
+        config.setLocationsAsStrings("filesystem:src/test/resources/db/migration")
+
+        flyway = new Flyway(config)
         flyway.migrate()
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         client.close()
         flyway.clean()
@@ -82,11 +81,11 @@ class IntegrationIT {
 
     @Test
     public void testGetAllCheque() {
-        final def url = "http://localhost:${RULE.getLocalPort()}/cheque/service/all"
+        final def url = "http://localhost:${EXT.getPort(0)}/cheque/service/all"
 
         def response = client.target(url).request().get()
 
-        assertEquals('Status should be OK.', Response.Status.OK.getStatusCode(), response.getStatus())
+        Assertions.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus(), 'Status should be OK.')
 
         def cheques = response.readEntity(new GenericType<List<Cheque>>(){})
 
@@ -94,52 +93,51 @@ class IntegrationIT {
                       ChequeTest.createCheque(44, 89, 'Tom', '2016-06-17'),
                       ChequeTest.createCheque(66, 87, 'Sam', '2016-06-20')]
 
-        assertEquals('Cheques should equal to expected.', expect, cheques)
+        Assertions.assertEquals(expect, cheques, 'Cheques should equal to expected.')
     }
 
     @Test
     public void testGetCheque() {
         final def chequeID = 3
-        final def url = "http://localhost:${RULE.getLocalPort()}/cheque/service/id/${chequeID}"
+        final def url = "http://localhost:${EXT.getPort(0)}/cheque/service/id/${chequeID}"
 
         def response = client.target(url).request().get()
 
-        assertEquals('Status should be OK.', Response.Status.OK.getStatusCode(), response.getStatus())
+        Assertions.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus(), 'Status should be OK.')
 
         def cheque = response.readEntity(Cheque.class)
 
         def expect = ChequeTest.createCheque(66, 87, 'Sam', '2016-06-20')
 
-        assertEquals('Cheque should equal to expected.', expect, cheque)
+        Assertions.assertEquals(expect, cheque, 'Cheque should equal to expected.')
     }
 
     @Test
     public void testGetChequesPaidTo() {
         final def recipient = 'Sam'
-        final def url = "http://localhost:${RULE.getLocalPort()}/cheque/service/recipient/${recipient}"
+        final def url = "http://localhost:${EXT.getPort(0)}/cheque/service/recipient/${recipient}"
 
         def response = client.target(url).request().get()
 
-        assertEquals('Status should be OK.', Response.Status.OK.getStatusCode(), response.getStatus())
+        Assertions.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus(), 'Status should be OK.')
 
         def cheques = response.readEntity(new GenericType<List<Cheque>>(){})
 
         def expect = [ChequeTest.createCheque(20, 30, 'Sam', '2016-06-12'),
                       ChequeTest.createCheque(66, 87, 'Sam', '2016-06-20')]
 
-        assertEquals('Cheques should equal to expected.', expect, cheques)
+        Assertions.assertEquals(expect, cheques, 'Cheques should equal to expected.')
     }
 
     @Test
     public void testPutCheque() {
-        final def url = "http://localhost:${RULE.getLocalPort()}/cheque/service/put"
+        final def url = "http://localhost:${EXT.getPort(0)}/cheque/service/put"
         final def cheque = ChequeTest.createCheque(29, 83, 'Linda', '2016-08-23')
 
         def response = client.target(url).request().put(Entity.json(cheque))
 
-        assertEquals('Status should be CREATED.', Response.Status.CREATED.getStatusCode(), response.getStatus())
+        Assertions.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus(), 'Status should be CREATED.')
 
-        assertTrue('Location should contain expected URI.',
-                response.getLocation().toString().endsWith('/cheque/service/id/4'))
+        Assertions.assertTrue(response.getLocation().toString().endsWith('/cheque/service/id/4'), 'Location should contain expected URI.')
     }
 }

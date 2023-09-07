@@ -10,7 +10,7 @@ import com.kyl.cheque.resources.ChequesResources
 import io.dropwizard.testing.junit5.DropwizardExtensionsSupport
 
 import io.dropwizard.testing.junit5.ResourceExtension
-import org.glassfish.jersey.test.grizzly.GrizzlyWebTestContainerFactory
+import org.glassfish.jersey.test.inmemory.InMemoryTestContainerFactory
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeAll
@@ -36,7 +36,7 @@ class ChequeResourcesIT {
     static MoneyFormatter formatter = mock(MoneyFormatter.class)
 
     private static final ResourceExtension EXT = ResourceExtension.builder()
-            .setTestContainerFactory(new GrizzlyWebTestContainerFactory())
+            .setTestContainerFactory(new InMemoryTestContainerFactory())
             .addResource(new ChequesResources(dao, formatter))
             .build()
 
@@ -149,9 +149,9 @@ class ChequeResourcesIT {
         Assertions.assertEquals(422, response.getStatus(), 'Status should be UNPROCESSABLE_ENTITY.')
 
         def errors = response.readEntity(Map.class)
-        Assertions.assertEquals(
+        Assertions.assertTrue(
                 ['dollar must be greater than or equal to 0', 'Amount must be greater than 0.0'].contains(
-                        errors['errors'][0]), 'Dollar validation error message')
+                        errors['errors']?[0]), 'Dollar validation error message')
     }
 
     @Test
@@ -178,8 +178,7 @@ class ChequeResourcesIT {
         Assertions.assertEquals(422, response.getStatus(), 'Status should be UNPROCESSABLE_ENTITY.')
 
         def errors = response.readEntity(Map.class)
-        Assertions.assertEquals('Cent validation error message',
-                'cent must be less than or equal to 99', errors['errors'][0])
+        Assertions.assertEquals('cent must be less than or equal to 99', errors['errors'][0], 'Cent validation error message')
     }
 
     @Test

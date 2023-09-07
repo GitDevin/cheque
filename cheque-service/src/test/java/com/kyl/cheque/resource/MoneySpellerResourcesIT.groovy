@@ -4,9 +4,12 @@ import com.kyl.cheque.core.ICUMoneyFormatter
 import com.kyl.cheque.core.MoneyFormatter
 import com.kyl.cheque.core.MoneyTest
 import com.kyl.cheque.resources.MoneySpellerResources
+import io.dropwizard.testing.junit5.DropwizardExtensionsSupport
 import io.dropwizard.testing.junit5.ResourceExtension
-import org.glassfish.jersey.test.grizzly.GrizzlyWebTestContainerFactory
+import org.glassfish.jersey.test.inmemory.InMemoryTestContainerFactory
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
 import javax.ws.rs.client.Entity
 import javax.ws.rs.core.GenericType
@@ -15,12 +18,13 @@ import javax.ws.rs.core.Response
 /**
 *  Created on 2016-09-04.
 */
+@ExtendWith(DropwizardExtensionsSupport.class)
 class MoneySpellerResourcesIT {
 
     static MoneyFormatter moneyFormatter = new ICUMoneyFormatter()
 
     private static final ResourceExtension EXT = ResourceExtension.builder()
-            .setTestContainerFactory(new GrizzlyWebTestContainerFactory())
+            .setTestContainerFactory(new InMemoryTestContainerFactory())
             .addResource(new MoneySpellerResources(moneyFormatter))
             .build()
 
@@ -39,7 +43,7 @@ class MoneySpellerResourcesIT {
     @Test
     public void testFormatInvalidMoney() {
         def response = EXT.target('/money/service/format').
-                request().post(Entity.json('{"dollar": "32", "nocents":"23"}'))
+                request().post(Entity.json([dollar: 32, nocent: 23]))
 
         Assertions.assertEquals(Response.Status.BAD_REQUEST.getStatusCode(),
                 response.getStatus(), 'Status code should be BAD_REQUEST')
@@ -48,9 +52,8 @@ class MoneySpellerResourcesIT {
     @Test
     public void testFormatMoneyWithThreeDigitCents() {
         final int badCent = 223
-
         def response = EXT.target('/money/service/format').
-                request().post(Entity.json("{\"dollar\": \"32\", \"cent\":\"${badCent}\"}"))
+                request().post(Entity.json([dollar: 32, cent: badCent]))
 
         Assertions.assertEquals(Response.Status.BAD_REQUEST.getStatusCode(),
                 response.getStatus(), 'Status code should be BAD_REQUEST')
