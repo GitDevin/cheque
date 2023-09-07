@@ -1,12 +1,16 @@
 steps:
   - name: maven:3.9.4
     entrypoint: mvn
-    args: ['-X', 'test']
+    args: ['test']
+
+  - name: maven:3.9.4
+    entrypoint: mvn
+    args: [ 'verify', '-Psurefire']
 
   - name: maven:3.9.4
     entrypoint: mvn
     args: ['package', '-Dmaven.test.skip=true']
 
-  - name: maven:3.9.4 #gcr.io/cloud-builders/mvn
+  - name: maven:3.9.4
     entrypoint: mvn
     args: [ 'deploy' ]
