@@ -18,5 +18,5 @@ steps:
   - name: docker
     args: ['build', '-t', 'us-west2-docker.pkg.dev/$PROJECT_ID/cheque-docker-repository/cheque-service:0.1.1-SNAPSHOT', '.']
     dir: './cheque-service'
-    images:
-      - 'us-west2-docker.pkg.dev/$PROJECT_ID/cheque-docker-repository/cheque-service:0.1.1-SNAPSHOT'
+images:
+  - 'us-west2-docker.pkg.dev/$PROJECT_ID/cheque-docker-repository/cheque-service:0.1.1-SNAPSHOT'
