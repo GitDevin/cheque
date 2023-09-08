@@ -151,7 +151,7 @@ class ChequeResourcesIT {
         def errors = response.readEntity(Map.class)
         Assertions.assertTrue(
                 ['dollar must be greater than or equal to 0', 'Amount must be greater than 0.0'].contains(
-                        errors['errors']?[0]), 'Dollar validation error message')
+                        errors['errors'][0]), 'Dollar validation error message')
     }
 
     @Test
