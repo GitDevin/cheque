@@ -14,3 +14,9 @@ steps:
   - name: maven:3.9.4
     entrypoint: mvn
     args: [ 'deploy' ]
+
+  - name: docker
+    args: ['build', '-t', 'us-west2-docker.pkg.dev/$PROJECT_ID/cheque-docker-repository/cheque-service:0.1.1-SNAPSHOT', '.']
+    dir: './cheque-service'
+    images:
+      - 'us-west2-docker.pkg.dev/$PROJECT_ID/cheque-docker-repository/cheque-service:0.1.1-SNAPSHOT'
