@@ -41,6 +41,3 @@ Back-end provides all functionality of Cheque without any UI. Information passed
 Source code can be found at [https://github.com/gitdevin/cheque](https://github.com/gitdevin/cheque).
 
 You can contact me by [email](mailto:dev.kun.yu.liu+chequedemo@gmail.com?Subject=Cheque%20demo).
-
-### TODO
-1. Javascript input validation
