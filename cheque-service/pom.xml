@@ -100,6 +100,12 @@
         <dependency>
             <groupId>io.dropwizard.metrics</groupId>
             <artifactId>metrics-jetty11</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.eclipse.jetty.toolchain</groupId>
+                    <artifactId>jetty-jakarta-servlet-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>io.dropwizard.metrics</groupId>
@@ -207,9 +213,17 @@
                         <filter>
                             <artifact>*:*</artifact>
                             <excludes>
+                                <exclude>LICENSE</exclude>
                                 <exclude>META-INF/*.SF</exclude>
                                 <exclude>META-INF/*.DSA</exclude>
                                 <exclude>META-INF/*.RSA</exclude>
+                                <exclude>META-INF/*.MF</exclude>
+                                <exclude>META-INF/*.md</exclude>
+                                <exclude>META-INF/*.txt</exclude>
+                                <exclude>META-INF/*.markdown</exclude>
+                                <exclude>META-INF/LICENSE</exclude>
+                                <exclude>META-INF/NOTICE</exclude>
+                                <exclude>module-info.class</exclude>
                             </excludes>
                         </filter>
                     </filters>

@@ -63,24 +63,24 @@
         <io.dropwizard.modules.flyway.version>4.0.0-3</io.dropwizard.modules.flyway.version>
         <com.fasterxml.jackson.core.version>2.15.2</com.fasterxml.jackson.core.version>
         <org.apache.groovy.version>4.0.26</org.apache.groovy.version>
-        <com.mysql.version>8.2.0</com.mysql.version>
-        <com.ibm.icu.version>57.1</com.ibm.icu.version>
-        <com.h2database.version>2.2.220</com.h2database.version>
+        <com.mysql.version>9.3.0</com.mysql.version>
+        <com.ibm.icu.version>77.1</com.ibm.icu.version>
+        <com.h2database.version>2.3.232</com.h2database.version>
         <org.flywaydb.flyway-core.version>11.9.0</org.flywaydb.flyway-core.version>
-        <junit.version>5.13.0-M2</junit.version>
-        <org.mockito.version>5.5.0</org.mockito.version>
-        <org.junit.platform.suite.version>1.13.0-M2</org.junit.platform.suite.version>
-        <org.apache.maven.plugins.shade.version>2.3</org.apache.maven.plugins.shade.version>
-        <org.apache.maven.compiler.plugin.version>3.11.0</org.apache.maven.compiler.plugin.version>
-        <java.source.version>17</java.source.version>
-        <java.target.version>17</java.target.version>
-        <java.release.version>17</java.release.version>
+        <junit.version>5.12.0</junit.version>
+        <org.mockito.version>5.18.0</org.mockito.version>
+        <org.junit.platform.suite.version>1.12.0</org.junit.platform.suite.version>
+        <org.apache.maven.plugins.shade.version>3.6.0</org.apache.maven.plugins.shade.version>
+        <org.apache.maven.compiler.plugin.version>3.14.0</org.apache.maven.compiler.plugin.version>
+        <java.source.version>21</java.source.version>
+        <java.target.version>21</java.target.version>
+        <java.release.version>21</java.release.version>
         <groovy-eclipse-compiler.version>3.9.0</groovy-eclipse-compiler.version>
         <groovy-eclipse-batch.version>4.0.26-01</groovy-eclipse-batch.version>
-        <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
-        <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
-        <maven-scm-plugin.version>1.9.4</maven-scm-plugin.version>
-        <artifactregistry-maven-wagon.version>2.2.1</artifactregistry-maven-wagon.version>
+        <maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
+        <maven-release-plugin.version>3.1.1</maven-release-plugin.version>
+        <maven-scm-plugin.version>2.1.0</maven-scm-plugin.version>
+        <artifactregistry-maven-wagon.version>2.2.5</artifactregistry-maven-wagon.version>
     </properties>
 
     <dependencyManagement>
@@ -146,6 +146,19 @@
                 <artifactId>dropwizard-testing</artifactId>
                 <version>${io.dropwizard.version}</version>
                 <scope>test</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.sun.activation</groupId>
+                        <artifactId>jakarta.activation</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>5.13.0</version>
+                <type>pom</type>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
@@ -163,7 +176,7 @@
                 <groupId>org.junit.platform</groupId>
                 <artifactId>junit-platform-suite-engine</artifactId>
                 <version>${org.junit.platform.suite.version}</version>
-                <scope>runtime</scope>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.jaxrs</groupId>
