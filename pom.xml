@@ -61,7 +61,7 @@
         <io.dropwizard.logback-throttling-appender.version>1.4.0</io.dropwizard.logback-throttling-appender.version>
         <io.dropwizard.metrics.version>4.2.32</io.dropwizard.metrics.version>
         <io.dropwizard.modules.flyway.version>4.0.0-3</io.dropwizard.modules.flyway.version>
-        <com.fasterxml.jackson.core.version>2.15.2</com.fasterxml.jackson.core.version>
+        <jackson-jakarta-rs-json-provider.version>2.19.0</jackson-jakarta-rs-json-provider.version>
         <org.apache.groovy.version>4.0.26</org.apache.groovy.version>
         <com.mysql.version>9.3.0</com.mysql.version>
         <com.ibm.icu.version>77.1</com.ibm.icu.version>
@@ -158,7 +158,7 @@
                 <artifactId>junit-bom</artifactId>
                 <version>5.13.0</version>
                 <type>pom</type>
-                <scope>test</scope>
+                <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
@@ -179,9 +179,9 @@
                 <scope>test</scope>
             </dependency>
             <dependency>
-                <groupId>com.fasterxml.jackson.jaxrs</groupId>
-                <artifactId>jackson-jaxrs-json-provider</artifactId>
-                <version>${com.fasterxml.jackson.core.version}</version>
+                <groupId>com.fasterxml.jackson.jakarta.rs</groupId>
+                <artifactId>jackson-jakarta-rs-json-provider</artifactId>
+                <version>${jackson-jakarta-rs-json-provider.version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>

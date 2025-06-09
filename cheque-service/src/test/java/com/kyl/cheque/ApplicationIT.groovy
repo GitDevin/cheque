@@ -1,10 +1,5 @@
 package com.kyl.cheque
 
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.SerializationFeature
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider
 import com.kyl.cheque.core.Cheque
 import com.kyl.cheque.core.ChequeTest
 import io.dropwizard.testing.ConfigOverride
@@ -23,7 +18,6 @@ import org.junit.jupiter.api.extension.ExtendWith
 import jakarta.ws.rs.client.Client
 import jakarta.ws.rs.client.Entity
 import jakarta.ws.rs.core.GenericType
-import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
 
 
@@ -35,8 +29,6 @@ class ApplicationIT {
     static final String DB_URL = "jdbc:h2:mem:test;MODE=ORACLE"
     static final String DB_USER = "cheque-user"
     static final String DB_PASSWORD = "cheque-p4ssw0rd"
-
-    static JacksonJsonProvider JACKSON_JSON_PROVIDER = new JacksonJaxbJsonProvider()
 
     private static DropwizardAppExtension<ChequeConfiguration> EXT = new DropwizardAppExtension<>(
             ChequeApplication.class,
@@ -55,34 +47,29 @@ class ApplicationIT {
 
     @BeforeAll
     static void setUpClass() throws Exception {
-        JACKSON_JSON_PROVIDER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-        JACKSON_JSON_PROVIDER.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
-
-        JACKSON_JSON_PROVIDER.locateMapper(Object.class, MediaType.APPLICATION_JSON_TYPE)
-                .registerModule(new JavaTimeModule())
     }
 
     @BeforeEach
-    public void setUp() {
-        client = EXT.client().register(JACKSON_JSON_PROVIDER)
+    void setUp() {
+        client = EXT.client()
     }
 
     @AfterEach
-    public void tearDownEach() {
-        def dataSource = EXT.getConfiguration().getDataSourceFactory().build(EXT.getApplication().bootstrap.getMetricRegistry(), 'Flyway')
+    void tearDownEach() {
+        def dataSource = EXT.getConfiguration().getDataSourceFactory().build(EXT.getEnvironment().metrics(), 'Flyway')
         flyway = EXT.getConfiguration().getFlywayFactory().build(dataSource)
         flyway.clean()
         flyway.migrate()
     }
 
     @AfterAll
-    public static void tearDown() {
+    static void tearDown() {
         client?.close()
         flyway?.clean()
     }
 
     @Test
-    public void testGetAllCheque() {
+    void testGetAllCheque() {
         final def url = "http://localhost:${EXT.getPort(0)}/cheque/service/all"
 
         def response = client.target(url).request().get()
@@ -99,7 +86,7 @@ class ApplicationIT {
     }
 
     @Test
-    public void testGetCheque() {
+    void testGetCheque() {
         final def chequeID = 3
         final def url = "http://localhost:${EXT.getPort(0)}/cheque/service/id/${chequeID}"
 
@@ -115,7 +102,7 @@ class ApplicationIT {
     }
 
     @Test
-    public void testGetChequesPaidTo() {
+    void testGetChequesPaidTo() {
         final def recipient = 'Sam'
         final def url = "http://localhost:${EXT.getPort(0)}/cheque/service/recipient/${recipient}"
 
@@ -132,7 +119,7 @@ class ApplicationIT {
     }
 
     @Test
-    public void testPutCheque() {
+    void testPutCheque() {
         final def url = "http://localhost:${EXT.getPort(0)}/cheque/service/put"
         final def cheque = ChequeTest.createCheque(29, 83, 'Linda', '2016-08-23')
 

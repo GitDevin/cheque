@@ -24,7 +24,7 @@ class HomePageResourcesIT {
             .build()
 
     @Test
-    public void testHomepageViewResources() {
+    void testHomepageViewResources() {
         def response = EXT.client().target('/').request().get()
 
         def result = response.readEntity(new GenericType<Map<String, String>>(){})

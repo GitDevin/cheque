@@ -29,7 +29,7 @@ class MoneySpellerResourcesIT {
             .build()
 
     @Test
-    public void testFormatMoney() {
+    void testFormatMoney() {
         def money = MoneyTest.createMoney(30, 56)
 
         def response = EXT.target('/money/service/format').
@@ -41,7 +41,7 @@ class MoneySpellerResourcesIT {
     }
 
     @Test
-    public void testFormatInvalidMoney() {
+    void testFormatInvalidMoney() {
         def response = EXT.target('/money/service/format').
                 request().post(Entity.json([nodollar: 32, nocent: 23]))
 
@@ -52,7 +52,7 @@ class MoneySpellerResourcesIT {
     }
 
     @Test
-    public void testFormatMoneyWithThreeDigitCents() {
+    void testFormatMoneyWithThreeDigitCents() {
         final int badCent = 223
         def response = EXT.target('/money/service/format').
                 request().post(Entity.json([dollar: 32, cent: badCent]))

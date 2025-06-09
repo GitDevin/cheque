@@ -54,7 +54,7 @@ class ChequeResourcesIT {
     }
 
     @Test
-    public void testGetAllChequesWithNullCheques() {
+    void testGetAllChequesWithNullCheques() {
         when(dao.getAllCheques()).thenReturn(null)
 
         def response = EXT.target('/cheque/service/all').request().get()
@@ -63,7 +63,7 @@ class ChequeResourcesIT {
     }
 
     @Test
-    public void testGetAllChequesWithEmptyCheques() {
+    void testGetAllChequesWithEmptyCheques() {
         when(dao.getAllCheques()).thenReturn(Collections.emptyList())
 
         def response = EXT.target('/cheque/service/all').request().get()
@@ -72,7 +72,7 @@ class ChequeResourcesIT {
     }
 
     @Test
-    public void testGetAllCheques() {
+    void testGetAllCheques() {
         final def cheques = [ChequeTest.createCheque(32, 12, 'Sam', '2016-08-19'),
                              ChequeTest.createCheque(84, 42, 'Tom', '2016-08-12'),
                              ChequeTest.createCheque(72, 62, 'Sam', '2016-08-23')]
@@ -89,14 +89,14 @@ class ChequeResourcesIT {
     }
 
     @Test
-    public void testGetNonExistingCheque() {
+    void testGetNonExistingCheque() {
         def response = EXT.target('/cheque/service/id/' + 99999L).request().get()
 
         Assertions.assertEquals(Response.Status.NOT_FOUND.getStatusCode(), response.getStatus(), 'Status should be 404.')
     }
 
     @Test
-    public void testGetValidCheque() {
+    void testGetValidCheque() {
         final def chequeID = 1
         final def expected = ChequeTest.createCheque(20, 30, 'Sam', '2016-06-12')
 
@@ -112,7 +112,7 @@ class ChequeResourcesIT {
     }
 
     @Test
-    public void testGetNonExistingRecipient() {
+    void testGetNonExistingRecipient() {
         final def recipient = 'no one'
         final List<Cheque> expected = Collections.emptyList()
 
@@ -124,7 +124,7 @@ class ChequeResourcesIT {
     }
 
     @Test
-    public void testGetRecipient() {
+    void testGetRecipient() {
         final def recipient = 'Sam'
         final def cheques = [ChequeTest.createCheque(32, 12, recipient, '2016-08-19'),
                              ChequeTest.createCheque(72, 62, recipient, '2016-08-23')]
@@ -155,7 +155,7 @@ class ChequeResourcesIT {
     }
 
     @Test
-    public void testPutNegativeCent() {
+    void testPutNegativeCent() {
         final def cheque = ChequeTest.createCheque(20, -1, 'sam', '2016-08-23')
 
         def response = EXT.target('/cheque/service/put')
@@ -169,7 +169,7 @@ class ChequeResourcesIT {
     }
 
     @Test
-    public void testPutChequeWithBadCent() {
+    void testPutChequeWithBadCent() {
         final def cheque = ChequeTest.createCheque(20, 130, 'sam', '2016-05-14')
 
         def response = EXT.target('/cheque/service/put')
@@ -182,7 +182,7 @@ class ChequeResourcesIT {
     }
 
     @Test
-    public void testPutZeroAmount() {
+    void testPutZeroAmount() {
         final def cheque = ChequeTest.createCheque(0, 0, 'sam', '2016-08-23')
 
         def response = EXT.target('/cheque/service/put')
@@ -192,7 +192,7 @@ class ChequeResourcesIT {
     }
 
     @Test
-    public void testPutChequeWithNullRecipient() {
+    void testPutChequeWithNullRecipient() {
         final def cheque = ChequeTest.createCheque(20, 30, 'NULL', '2016-05-14')
         final def jsonString = MAPPER.writeValueAsString(cheque).replace('"NULL"', 'null')
 
@@ -203,7 +203,7 @@ class ChequeResourcesIT {
     }
 
     @Test
-    public void testPutChequeWithEmptyRecipient() {
+    void testPutChequeWithEmptyRecipient() {
         final def cheque = ChequeTest.createCheque(20, 30, '', '2016-05-14')
 
         def response = EXT.target('/cheque/service/put')
@@ -213,7 +213,7 @@ class ChequeResourcesIT {
     }
 
     @Test
-    public void testPutChequeWithNullPaymentDate() {
+    void testPutChequeWithNullPaymentDate() {
         final def cheque = ChequeTest.createCheque(20, 30, 'Sam', '2016-06-14')
         final def jsonString = MAPPER.writeValueAsString(cheque).replace("[2016,6,14]", 'null')
 
@@ -224,7 +224,7 @@ class ChequeResourcesIT {
     }
 
     @Test
-    public void testPutChequeWithInvalidPaymentDate() {
+    void testPutChequeWithInvalidPaymentDate() {
         final def cheque = ChequeTest.createCheque(20, 30, 'Sam', '2016-06-14')
         final def jsonString = MAPPER.writeValueAsString(cheque).replace("[2016,6,14]", '[dasfa]')
 
@@ -235,7 +235,7 @@ class ChequeResourcesIT {
     }
 
     @Test
-    public void testPutValidCheque() {
+    void testPutValidCheque() {
         final def cheque = ChequeTest.createCheque(20, 30, 'Sam', '2016-06-14')
         final def chequeID = 1l
 
@@ -251,7 +251,7 @@ class ChequeResourcesIT {
     }
 
     @Test
-    public void testPutValidChequeBadInsert() {
+    void testPutValidChequeBadInsert() {
         final def cheque = ChequeTest.createCheque(20, 30, 'Sam', '2016-06-14')
         final def chequeID = 0l
 
@@ -266,7 +266,7 @@ class ChequeResourcesIT {
     }
 
     @Test
-    public void testPutChequeWithInsertException() {
+    void testPutChequeWithInsertException() {
         final cheque = ChequeTest.createCheque(1, 0, 'Sam','2016-05-13')
 
         when(dao.insertCheque(cheque)).thenThrow(RuntimeException.class)

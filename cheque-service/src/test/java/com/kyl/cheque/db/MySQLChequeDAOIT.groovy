@@ -76,14 +76,14 @@ class MySQLChequeDAOIT {
     }
 
     @Test
-    public void testGetCheque() {
+    void testGetCheque() {
         def cheque = dao.getCheque(2l)
 
         ChequeTest.assertCheque(cheque, 44, 89, 'Tom', '2016-06-17')
     }
 
     @Test
-    public void testGetAllChequesPaidTo() {
+    void testGetAllChequesPaidTo() {
         def cheques = dao.getAllChequesPaidTo('Sam')
 
         assertEquals("There should be 2 cheques paid to Sam.", cheques.size(), 2)
@@ -93,7 +93,7 @@ class MySQLChequeDAOIT {
     }
 
     @Test
-    public void testInsertCheque() {
+    void testInsertCheque() {
         def cheque = ChequeTest.createCheque(23, 45, 'noone', '2016-06-25')
 
         int sizeBefore = dao.getAllCheques().size()
