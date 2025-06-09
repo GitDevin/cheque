@@ -5,11 +5,11 @@ import com.kyl.cheque.db.ChequeDAO
 import com.kyl.cheque.views.ChequesView
 import com.kyl.cheque.views.RecipientView
 
-import javax.ws.rs.GET
-import javax.ws.rs.Path
-import javax.ws.rs.PathParam
-import javax.ws.rs.Produces
-import javax.ws.rs.core.MediaType
+import jakarta.ws.rs.GET
+import jakarta.ws.rs.Path
+import jakarta.ws.rs.PathParam
+import jakarta.ws.rs.Produces
+import jakarta.ws.rs.core.MediaType
 
 /**
  * Created on 2016-04-21.

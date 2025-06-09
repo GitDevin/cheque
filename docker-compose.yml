@@ -1,16 +1,16 @@
 version: '3'
 services:
   mysql:
-    image: mysql:8.1.0
-#    build: ./mysql/
+#    image: mysql:8.1.0
+    build: ./mysql/
 #    volumes:
 #      - ./mysql:/var/lib/mysql
-    environment:
-      - MYSQL_DATABASE=FINANCE
-      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
-      - MYSQL_CONTAINER_NAME=mysql
-      - MYSQL_USER=${DB_USER}
-      - MYSQL_PASSWORD=${DB_PASSWORD}
+#    environment:
+#      - MYSQL_DATABASE=FINANCE
+#      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+#      - MYSQL_CONTAINER_NAME=mysql
+#      - MYSQL_USER=${DB_USER}
+#      - MYSQL_PASSWORD=${DB_PASSWORD}
 
   cheque:
     build: ./cheque-service/

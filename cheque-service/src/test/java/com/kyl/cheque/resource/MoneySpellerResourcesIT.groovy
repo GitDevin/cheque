@@ -11,9 +11,9 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
-import javax.ws.rs.client.Entity
-import javax.ws.rs.core.GenericType
-import javax.ws.rs.core.Response
+import jakarta.ws.rs.client.Entity
+import jakarta.ws.rs.core.GenericType
+import jakarta.ws.rs.core.Response
 
 /**
 *  Created on 2016-09-04.

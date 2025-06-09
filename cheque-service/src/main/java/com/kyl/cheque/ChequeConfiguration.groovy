@@ -5,8 +5,8 @@ import io.dropwizard.core.Configuration
 import io.dropwizard.db.DataSourceFactory
 import io.dropwizard.flyway.FlywayFactory
 
-import javax.validation.Valid
-import javax.validation.constraints.NotNull
+import jakarta.validation.Valid
+import jakarta.validation.constraints.NotNull
 
 /**
  * Created on 2016-04-20.
